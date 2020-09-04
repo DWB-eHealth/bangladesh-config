@@ -1,1 +1,0 @@
-{"name":"Hepatitis C","id":56,"uuid":"ca0fe7c9-8e56-4533-b9a0-e2874872c248","defaultLocale":"en","controls":[{"translationKey":"LABEL_2","type":"label","value":"Pending concepts","properties":{"location":{"column":0,"row":0}},"id":"2"}],"events":{},"translationsUrl":"/openmrs/ws/rest/v1/bahmniie/form/translations"}
