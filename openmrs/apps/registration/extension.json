@@ -1,0 +1,140 @@
+{
+    "search":{
+        "id": "bahmni.registration.navigation.patient.search",
+        "extensionPointId": "org.bahmni.registration.navigation",
+        "type": "link",
+        "translationKey":"REGISTRATION_SEARCH_CONFIG_KEY",
+        "url": "/search",
+        "shortcutKey": "REGISTRATION_SEARCH_CONFIG_ACCESS_KEY",
+        "icon": "fa-search",
+        "order": 1,
+        "requiredPrivilege": "View Patients"
+    },
+    "createNew":{
+        "id": "bahmni.registration.navigation.patient.create",
+        "extensionPointId": "org.bahmni.registration.navigation",
+        "type": "link",
+        "translationKey": "REGISTRATION_CREATE_NEW_CONFIG_KEY",
+        "url": "/patient/new",
+        "icon": "fa-plus",
+        "shortcutKey": "REGISTRATION_CREATE_NEW_CONFIG_ACCESS_KEY",
+        "order": 2,
+        "requiredPrivilege": "Add Patients"
+    },
+    "view":{
+        "id": "bahmni.patient.search.result.action.edit",
+        "extensionPointId": "org.bahmni.registration.patient.search.result.action",
+        "type": "link",
+        "translationKey": "REGISTRATION_VIEW_CONFIG_KEY",
+        "url": "/patient/{{patientUuid}}",
+        "icon": "fa-patient-edit",
+        "order": 1,
+        "requiredPrivilege": "View Patients"
+    },
+
+    "patientDiagnoses":{
+       "id": "bahmni.registration.conceptSetGroup.patientDiagnoses",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Patient Diagnoses",
+           "conceptNames": ["Confirmed diagnosis","Diagnosis date","Co-morbid conditions"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 4,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "patientVitals":{
+       "id": "bahmni.registration.conceptSetGroup.patientVitals",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Patient Vitals",
+           "conceptNames": ["Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 5,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "patientData":{
+       "id": "bahmni.registration.conceptSetGroup.patientData",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Patient Data",
+           "conceptNames": ["Smoking Status"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 6,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "patientOfCareTests":{
+       "id": "bahmni.registration.conceptSetGroup.patientOfCareTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Point of Care Tests",
+           "conceptNames": [""],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 7,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "labTests":{
+       "id": "bahmni.registration.conceptSetGroup.labTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Lab Tests",
+           "conceptNames": ["glycosylated hemoglobin A measurement", "Fasting blood glucose measurement (mg/dL)", "Serum creatinine (mg/dL)", "SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE", "SERUM GLUTAMIC-PYRUVIC TRANSAMINASE", "BLOOD PLATELET"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 8,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "hepatitisC":{
+       "id": "bahmni.registration.conceptSetGroup.hepatitisC",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Hepatitis C",
+           "conceptNames": [""],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 9,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "otherTests":{
+       "id": "bahmni.registration.conceptSetGroup.otherTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Other tests",
+           "conceptNames": ["Thyroid stimulating hormone test", "Thyroxine test", "Tri-iodothyronine test"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 10,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "entranceAndExit":{
+       "id": "bahmni.registration.conceptSetGroup.entranceAndExit",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Entrance and Exit",
+           "conceptNames": ["DATE OF DEATH", "Cause of death, non-coded (text)"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 11,
+       "requiredPrivilege": "Edit Visits"
+   }
+
+}

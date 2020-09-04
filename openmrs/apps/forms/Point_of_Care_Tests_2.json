@@ -1,0 +1,1 @@
+{"name":"Point of Care Tests","id":54,"uuid":"7d97c035-b9f6-4803-b9f0-bcce49e6f1f5","defaultLocale":"en","controls":[{"translationKey":"LABEL_2","type":"label","value":"Pending concepts","properties":{"location":{"column":0,"row":0}},"id":"2"}],"events":{},"translationsUrl":"/openmrs/ws/rest/v1/bahmniie/form/translations"}
