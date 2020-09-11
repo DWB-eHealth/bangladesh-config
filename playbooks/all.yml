@@ -1,0 +1,9 @@
+- hosts: localhost
+  become: yes
+  roles:
+    - { role: implementer-interface, tags: implementer_interface  }
+    - { role: bahmni-apps, tags: bahmni_apps }
+    - { role: bahmni-core, tags: bahmni_core }
+    - { role: appointments, tags: appointments }
+    - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
+    - { role: webservices-rest, tags: webservices-rest }
