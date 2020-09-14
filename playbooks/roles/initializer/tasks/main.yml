@@ -1,0 +1,19 @@
+- name: Find existing initializer omod
+  find:
+    paths: /opt/openmrs/modules
+    patterns: initializer*.omod
+  register: result
+
+- name: Delete initializer omod
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ result.files }}"
+
+- name: Get initializer from GitHub and place it in /opt/openmrs/modules
+  get_url:
+      url: "{{ initializer }}"
+      dest: /opt/openmrs/modules/initializer.omod
+      mode: 0644
+- name: Change ownership of initializer file
+  action: file state=file path=/opt/openmrs/modules/initializer.omod owner=bahmni group=bahmni

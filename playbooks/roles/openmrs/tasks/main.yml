@@ -1,0 +1,3 @@
+- name: restart openmrs
+  command: service openmrs restart
+  ignore_errors: yes

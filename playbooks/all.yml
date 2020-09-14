@@ -6,4 +6,6 @@
     - { role: bahmni-core, tags: bahmni_core }
     - { role: appointments, tags: appointments }
     - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
-    - { role: webservices-rest, tags: webservices-rest }
+    - { role: webservices, tags: webservices }
+    - { role: initializer, tags: initializer }
+    - { role: openmrs, tags: openmrs }
