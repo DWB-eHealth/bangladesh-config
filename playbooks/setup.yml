@@ -2,6 +2,6 @@ implementerinterface: http://repo.mybahmni.org.s3.amazonaws.com/rpm/bahmni/bahmn
 bahmniapps: https://github.com/DWB-eHealth/dependencies/raw/master/bahmniapps.zip
 appointments: https://github.com/DWB-eHealth/dependencies/raw/master/appointments-api-1.2.0.jar
 bahmnicore: https://stable.s3.ap-south-1.amazonaws.com/msf-release-1.0/bahmnicore-0.93-SNAPSHOT.omod
-bahmniieapps: https://github.com/DWB-eHealth/dependencies/raw/master/bahmni.ie.apps-omod-1.0.0.jar
+bahmniieapps: http://repo.mybahmni.org.s3.amazonaws.com/artifactory/snapshot/org/bahmni/module/bahmni.ie.apps-omod/1.1.0-SNAPSHOT/bahmni.ie.apps-omod-1.1.0-20200510.131200-6.jar
 webservices: https://github.com/DWB-eHealth/dependencies/raw/master/webservices.rest-2.24.0.omod
-initializer: https://github.com/DWB-eHealth/dependencies/raw/master/initializer-omod-2.0.0.jar
+initializer: https://github.com/DWB-eHealth/dependencies/raw/master/initializer-omod-2.1.0-20200724.085658-5.jar
