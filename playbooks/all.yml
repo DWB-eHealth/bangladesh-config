@@ -7,5 +7,6 @@
     - { role: appointments, tags: appointments }
     - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
     - { role: webservices, tags: webservices }
+    - { role: openconceptlab, tags: openconceptlab }
     - { role: initializer, tags: initializer }
     - { role: openmrs, tags: openmrs }
