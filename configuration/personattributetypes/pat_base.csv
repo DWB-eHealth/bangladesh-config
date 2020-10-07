@@ -1,0 +1,3 @@
+Uuid,Void/Retire,Name,Description,Format,Foreign uuid,Searchable,Edit privilege,_order:1000
+,,Camp location,,java.lang.String,,,,
+,,Mazhi,,java.lang.String,,,,
