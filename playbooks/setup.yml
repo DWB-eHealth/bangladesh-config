@@ -1,6 +1,6 @@
 implementerinterface: http://repo.mybahmni.org.s3.amazonaws.com/rpm/bahmni/bahmni-implementer-interface-0.93-56.noarch.rpm
 bahmniapps: https://github.com/DWB-eHealth/dependencies/raw/master/bahmniapps.zip
-appointments: https://github.com/DWB-eHealth/dependencies/raw/master/appointments-api-1.2.0.jar
+appointments: https://oss.sonatype.org/service/local/repositories/releases/content/org/bahmni/module/appointments-omod/1.2.1/appointments-omod-1.2.1.jar
 bahmnicore: https://stable.s3.ap-south-1.amazonaws.com/msf-release-1.0/bahmnicore-0.93-SNAPSHOT.omod
 bahmniieapps: http://repo.mybahmni.org.s3.amazonaws.com/artifactory/snapshot/org/bahmni/module/bahmni.ie.apps-omod/1.1.0-SNAPSHOT/bahmni.ie.apps-omod-1.1.0-20200510.131200-6.jar
 webservices: https://github.com/DWB-eHealth/dependencies/raw/master/webservices.rest-2.24.0.omod
