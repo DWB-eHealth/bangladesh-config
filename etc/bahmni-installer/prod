@@ -1,7 +1,6 @@
-localhost ansible_connection=prod
+localhost ansible_connection=local
 
 [nagios-server]
-localhost
 
 [bahmni-emr]
 localhost
@@ -12,10 +11,8 @@ localhost
 [bahmni-emr-db-slave]
 
 [bahmni-erp]
-localhost
 
 [bahmni-erp-db]
-localhost
 
 [bahmni-erp-db-slave]
 
@@ -52,15 +49,12 @@ localhost
 [bahmni-offline]
 
 [mysql-backup-tool]
-localhost
 
 [postgres-backup-tool]
-localhost
 
 [bahmni-backup-artifacts]
-localhost
 
-[prod:children]
+[local:children]
 nagios-server
 bahmni-emr
 bahmni-emr-db
