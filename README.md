@@ -13,7 +13,7 @@ Get the bahmni configuration files
 ```$ cd /etc/bahmni-installer/deployment-artifacts/ && wget https://github.com/DWB-eHealth/bangladesh-config/archive/master.zip && unzip master.zip && mv bangladesh-config bangladesh_config && rm master.zip```
 
 Get the /etc/bahmni-installer/setup.yml with Dhaka timezone and implementation_name: bangladesh  
-```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/etc/bahmni-installer/prod /etc/bahmni-installer/```
+```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/etc/bahmni-installer/setup.yml /etc/bahmni-installer/```
 
 Get the inventory file /etc/bahmni-installer/prod with bahmni-emr, bahmni-emr-db, bahmni-reports, bahmni-reports-db  
 ```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/etc/bahmni-installer/prod /etc/bahmni-installer/```
