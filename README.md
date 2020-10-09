@@ -13,13 +13,13 @@ Get the bahmni configuration files
 ```$ cd /etc/bahmni-installer/deployment-artifacts/ && wget https://github.com/DWB-eHealth/bangladesh-config/archive/master.zip && unzip master.zip && mv bangladesh-config bangladesh_config && rm master.zip```
 
 Get the /etc/bahmni-installer/setup.yml with Dhaka timezone and implementation_name: bangladesh  
-```$ cp /var/www/bahmni_config/etc/bahmni-installer/setup.yml /etc/bahmni-installer/setup.yml```
+```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/etc/bahmni-installer/prod /etc/bahmni-installer/```
 
 Get the inventory file /etc/bahmni-installer/prod with bahmni-emr, bahmni-emr-db, bahmni-reports, bahmni-reports-db  
-```$ cp /var/www/bahmni_config/etc/bahmni-installer/prod /etc/bahmni-installer/prod```
+```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/etc/bahmni-installer/prod /etc/bahmni-installer/```
 
 Get the latest database snapshot  
-```$ cp /var/www/bahmni_config/database-snapshots/latest-openmrs_backup.sql /etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql```
+```$ cp /etc/bahmni-installer/deployment-artifacts/bangladesh_config/database-snapshots/latest-openmrs_backup.sql /etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql```
 
 Run the installer  
 ```$ bahmni -i prod install```
