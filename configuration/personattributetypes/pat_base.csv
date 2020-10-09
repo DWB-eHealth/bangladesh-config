@@ -1,3 +1,10 @@
 Uuid,Void/Retire,Name,Description,Format,Foreign uuid,Searchable,Edit privilege,_order:1000
-,,Camp location,,java.lang.String,,,,
-,,Mazhi,,java.lang.String,,,,
+,,Camp location,Camp location,java.lang.String,,,,2
+,,Mazhi,Mazhi,java.lang.String,,,,3
+,,Status of Patient,Status of Patient,java.lang.String,,,,1
+,,Patient phone number,Patient phone number,java.lang.String,,,,4
+,,Previous MSF ID,Previous MSF ID,java.lang.String,,yes,,5
+,,Full name ,Full name ,java.lang.String,,,,6
+,,Relationship with the patient,Relationship with the patient,java.lang.String,,,,7
+,,Phone number,Phone number,java.lang.String,,,,8
+,,Address,Address,java.lang.String,,,,9
