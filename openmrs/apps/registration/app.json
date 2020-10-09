@@ -25,6 +25,10 @@
             "activeVisitUuid"
         ],
         "config" : {
+          "mandatoryPersonAttributes" : [
+                "Status of Patient",
+                "Patient phone number"
+            ],
           "patientInformation": {
             "Additional Information": {
                 "title": "Additional Information",
@@ -33,8 +37,8 @@
                 ],
                 "expanded": true
             },
-              "Address Information": {
-                  "title": "Address Information",
+              "Address Information test": {
+                  "title": "Address Information test",
                   "tranlsationkey": "REGISTRATION_ADDRESS_INFORMATION",
                   "attributes": [
                       "Status of Patient",
@@ -71,7 +75,7 @@
               }
           },
             "addressHierarchy": {
-                "showAddressFieldsTopDown": false,
+                "showAddressFieldsTopDown": true,
                 "strictAutocompleteFromLevel": "stateProvince"
             },
 
@@ -79,12 +83,11 @@
             "defaultIdentifierPrefix": "GAN",
             "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
-            "showMiddleName": true,
+            "showMiddleName": false,
             "showLastName": true,
             "isLastNameMandatory": true,
             "showSaveConfirmDialog": false,
-            "showBirthTime": true,
-            "showCasteSameAsLastNameCheckbox": false,
+            "showBirthTime": false,
             "printOptions": [
                 {
                     "translationKey": "REGISTRATION_PRINT_REG_CARD_LOCAL_KEY",
