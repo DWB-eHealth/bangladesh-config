@@ -25,7 +25,7 @@ Run the installer
 ```$ bahmni -i prod install```
 
 Load Initializer configuration files - Optional if database snapshot is imported  
-```$ sudo ln -s  /bahmni/bangladesh-config/ /opt/openmrs/configuration```
+```$ sudo ln -s  /var/www/bahmni_config/configuration/ /opt/openmrs/configuration```
 
 Install the modules and restart OpenMRS using the playbooks  
 ```$ ansible-playbook /var/www/bahmni_config/playbooks/all.yml -i /etc/bahmni-installer/prod --extra-vars '@/var/www/bahmni_config/playbooks/setup.yml'```
