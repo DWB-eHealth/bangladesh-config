@@ -118,6 +118,7 @@
                 "Patient phone number" :{"pattern" : "^[+][0-9]{0,}$","errorMessage" : "Should contain country code and phone number"},
                 "Previous MSF ID" : {"pattern" : "^[a-zA-Z'_ ]{1,55}$.*$", "errorMessage" : "Should not exceed 55 characters"},
                 "Full name" : {"pattern" : "^[a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should not exceed 50 characters"},
+                "Phone number" :{"pattern" : "^[+][0-9]{0,}$","errorMessage" : "Should contain country code and phone number"},
                 "Relationship with the patient" : {"pattern" : "^[a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should not exceed 50 characters"},
                 "Address" : {"pattern" : "^[a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should not exceed 50 characters"}
             },
