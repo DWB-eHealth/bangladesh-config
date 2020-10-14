@@ -39,12 +39,12 @@
     "order": 4,
     "requiredPrivilege": "app:implementer-interface"
   },
-  "appointmentScheduling": {
+  "appointmentSchedulingV2": {
     "id": "bahmni.appointment.scheduling",
     "extensionPointId": "org.bahmni.home.dashboard",
     "type": "link",
     "translationKey": "MODULE_LABEL_APPOINTMENT_SCHEDULING_KEY",
-    "url": "../appointments",
+    "url": "../appointments-v2/#/home/manage/summary",
     "icon": "fa fa-calendar",
     "order": 5,
     "requiredPrivilege": "app:appointments"

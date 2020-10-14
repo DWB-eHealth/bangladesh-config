@@ -80,7 +80,7 @@
             },
 
             "autoCompleteFields":["familyName"],
-            "defaultIdentifierPrefix": "GAN",
+            "defaultIdentifierPrefix": "BAN",
             "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
             "showMiddleName": false,
