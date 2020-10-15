@@ -1,0 +1,33 @@
+- name: Get appointments UI zip artifact from GitHub
+  get_url:
+    url: "{{ appointmentsui }}"
+    dest: /opt/bahmni-web/etc
+    mode: 0755
+
+- stat: path=/opt/bahmni-web/etc/appointments.zip
+  register: latest_appointments_ui
+
+- name: unlinking /var/www/appointments
+  file: path=/var/www/appointments state=absent
+  when: latest_appointments_ui.stat.exists == True
+
+- name: Remove old appointments backup
+  file: path=/opt/bahmni-web/etc/appointments_backup state=absent
+  when: latest_appointments_ui.stat.exists == True
+
+- name: appointments backup
+  command: mv /opt/bahmni-web/etc/appointments /opt/bahmni-web/etc/appointments_backup
+  when: latest_appointments_ui.stat.exists == True
+  ignore_errors: yes
+
+- name: Unzip downloaded appointments file
+  command: unzip /opt/bahmni-web/etc/appointments.zip -d /opt/bahmni-web/etc/
+  when: latest_appointments_ui.stat.exists == True
+
+- name: Change ownership of appointments file
+  action: file state=directory recurse=yes path=/opt/bahmni-web/etc/appointments owner=bahmni group=bahmni
+  when: latest_appointments_ui.stat.exists == True
+
+- name: linking /var/www/appointments to appointments
+  file: src=/opt/bahmni-web/etc/appointments dest=/var/www/appointments owner=bahmni group=bahmni state=link
+  when: latest_appointments_ui.stat.exists == True

@@ -5,6 +5,7 @@
     - { role: bahmni-apps, tags: bahmni_apps }
     - { role: bahmni-core, tags: bahmni_core }
     - { role: appointments, tags: appointments }
+    - { role: appointments-ui, tags: appointments_ui }
     - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
     - { role: webservices, tags: webservices }
     - { role: openconceptlab, tags: openconceptlab }
