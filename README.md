@@ -29,3 +29,9 @@ Load Initializer configuration files - Optional if database snapshot is imported
 
 Install the modules and restart OpenMRS using the playbooks  
 ```$ ansible-playbook /var/www/bahmni_config/playbooks/all.yml -i /etc/bahmni-installer/prod --extra-vars '@/var/www/bahmni_config/playbooks/setup.yml'```
+
+### Appointments scheduling V2 setup  
+The installation of the Appointment scheduling V2 (OMOD module and frontend UI) are deployed through the playbooks.
+The only manual step to be completed across environments is the HTTPD alias addition in `/etc/httpd/conf.d/ssl.conf`  
+`Alias /appointments-v2 /var/www/appointments`  
+`$ systemctl restart httpd`  
