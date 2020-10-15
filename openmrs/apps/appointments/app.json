@@ -10,7 +10,8 @@
   "config": {
     "minCharLengthToTriggerPatientSearch": 3,
     "enableSpecialities": false,
-    "startOfWeek": 2,
+    "maxAppointmentProviders": 100,
+    "startOfWeek": "Monday",
     "weekStart": "isoWeek",
     "calendarSlotDuration": "00:30",
     "calendarSlotLabelInterval": "00:30",
@@ -50,6 +51,9 @@
     "colorsForListView": {
       "Missed": "#fceab6",
       "Cancelled": "#fcb6b6"
+    },
+    "recurrence": {
+      "defaultNumberOfOccurrences": 10
     }
   }
 }
