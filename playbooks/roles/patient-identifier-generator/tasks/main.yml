@@ -1,19 +1,19 @@
-- name: Find existing patient identifier generator omod
+- name: Find existing visit close module omod
   find:
     paths: /opt/openmrs/modules
-    patterns: patientidentifiergenerator*.omod
+    patterns: visitclosemodule*.omod
   register: result
 
-- name: Delete patient identifier generator omod
+- name: Delete visit close module omod
   file:
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ result.files }}"
 
-- name: Get patient identifier generator from GitHub and place it in /opt/openmrs/modules
+- name: Get visit close module from GitHub and place it in /opt/openmrs/modules
   get_url:
-      url: "{{ patientidentifiergenerator }}"
-      dest: /opt/openmrs/modules/patientidentifiergenerator.omod
+      url: "{{ visitclosemodule }}"
+      dest: /opt/openmrs/modules/visitclosemodule.omod
       mode: 0644
-- name: Change ownership of patient identifier generator file
-  action: file state=file path=/opt/openmrs/modules/patientidentifiergenerator.omod owner=bahmni group=bahmni
+- name: Change ownership of visit close module file
+  action: file state=file path=/opt/openmrs/modules/visitclosemodule.omod owner=bahmni group=bahmni

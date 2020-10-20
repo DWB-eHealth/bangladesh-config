@@ -5,6 +5,7 @@ appointmentsui: https://github.com/DWB-eHealth/dependencies/raw/master/appointme
 bahmnicore: https://stable.s3.ap-south-1.amazonaws.com/msf-release-1.0/bahmnicore-0.93-SNAPSHOT.omod
 bahmniieapps: http://repo.mybahmni.org.s3.amazonaws.com/artifactory/snapshot/org/bahmni/module/bahmni.ie.apps-omod/1.1.0-SNAPSHOT/bahmni.ie.apps-omod-1.1.0-20200510.131200-6.jar
 patientidentifiergenerator: https://github.com/DWB-eHealth/dependencies/raw/master/patientidentifiergenerator-0.1.0.omod
+visitclosemodule: https://github.com/DWB-eHealth/dependencies/raw/master/visit-close-module-0.91.omod
 webservices: https://github.com/DWB-eHealth/dependencies/raw/master/webservices.rest-2.24.0.omod
 initializer: https://openmrs.jfrog.io/artifactory/mekom-solutions-cache/org/openmrs/module/initializer-omod/2.1.0-SNAPSHOT/initializer-omod-2.1.0-20200916.195428-7.jar
 openconceptlab: https://github.com/DWB-eHealth/dependencies/raw/master/openconceptlab-1.2.5-SNAPSHOT.omod
