@@ -7,6 +7,7 @@
     - { role: appointments, tags: appointments }
     - { role: appointments-ui, tags: appointments_ui }
     - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
+    - { role: patient-identifier-generator, tags: patient_identifier_generator }
     - { role: webservices, tags: webservices }
     - { role: openconceptlab, tags: openconceptlab }
     - { role: initializer, tags: initializer }
