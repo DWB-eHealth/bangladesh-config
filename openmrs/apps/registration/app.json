@@ -37,27 +37,27 @@
                 ],
                 "expanded": true
             },
-              "Address Information test": {
-                  "title": "Address Information test",
-                  "tranlsationkey": "REGISTRATION_ADDRESS_INFORMATION",
-                  "attributes": [
-                      "Status of Patient",
-                      "Camp location",
-                      "Mazhi"
-                  ],
-                  "expanded": true
+              "Address Information": {
+                "title": "Address Information",
+                "translationKey": "REGISTRATION_ADDRESS_INFORMATION",
+                "attributes": [
+                    "Status of Patient",
+                    "Camp location",
+                    "Mazhi"
+                ],
+                "expanded": true
               },
               "Other Information": {
                   "title": "Other Information",
-                  "tranlsationkey": "REGISTRATION_OTHER_INFORMATION",
+                  "translationKey": "REGISTRATION_OTHER_INFORMATION",
                   "attributes": [
                       "Patient phone number",
                       "Previous MSF ID"
                   ],
                   "expanded": true
               },
-              "Emergency Contact Details": {
-                  "title" : "Emergency Contact Details",
+              "Emergency or Caretaker contact details": {
+                  "title" : "Emergency or Caretaker contact details",
                   "translationKey": "REGISTRATION_EMERGENCY_CONTACT_DETAILS",
                   "attributes": [
                     "Full name",
@@ -66,21 +66,10 @@
                     "Address"
                   ],
                   "expanded":true
-              },
-              "hidden": {
-                  "attributes": [
-                  ]
-              },
-              "defaults":  {
               }
           },
-            "addressHierarchy": {
-                "showAddressFieldsTopDown": true,
-                "strictAutocompleteFromLevel": "stateProvince"
-            },
-
             "autoCompleteFields":["familyName"],
-            "defaultIdentifierPrefix": "BAN",
+            "defaultIdentifierPrefix": "BD",
             "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
             "showMiddleName": false,
