@@ -4,3 +4,4 @@
 timezone: Asia/Dhaka
 implementation_name: bangladesh
 selinux_state: disabled
+mysql_version: 5.6.48
