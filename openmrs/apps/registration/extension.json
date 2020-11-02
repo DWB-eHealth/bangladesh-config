@@ -28,20 +28,111 @@
         "translationKey": "REGISTRATION_VIEW_CONFIG_KEY",
         "url": "/patient/{{patientUuid}}",
         "icon": "fa-patient-edit",
-        "order": 1,
+        "order": 3,
         "requiredPrivilege": "View Patients"
     },
     "patientDiagnosis":{
-       "id": "bahmni.registration.conceptSetGroup.patientDiagnosis",
+        "id": "bahmni.registration.conceptSetGroup.patientDiagnosis",
+        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+        "type": "forms",
+        "extensionParams": {
+            "formName": "Patient Diagnosis",
+            "conceptNames": ["Diagnosis","Diagnosis date", "Co-morbid conditions", "Diagnosis or co-morbidities, other"],
+            "required":true,
+            "showLatest": true
+        },
+        "order": 4,
+        "requiredPrivilege": "Edit Visits"
+    },
+   "patientVitals":{
+       "id": "bahmni.registration.conceptSetGroup.patientVitals",
        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
        "type": "forms",
        "extensionParams": {
-           "formName": "Patient Diagnosis",
-           "conceptNames": ["Diagnosis date"],
+           "formName": "Patient Vitals",
+           "conceptNames": ["Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure"],
            "required":true,
            "showLatest": true
        },
-       "order": 4,
+       "order": 5,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "patientData":{
+       "id": "bahmni.registration.conceptSetGroup.patientData",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Patient Data",
+           "conceptNames": ["Any seizures since last consultation", "COPD exacerbation", "Asthma exacerbation", "Smoker"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 6,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "patientOfCareTests":{
+       "id": "bahmni.registration.conceptSetGroup.patientOfCareTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Point of Care Tests",
+           "conceptNames": ["URINE PROTEIN (DIP STICK)", "Serum glucose"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 7,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "labTests":{
+       "id": "bahmni.registration.conceptSetGroup.labTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Lab Tests",
+           "conceptNames": ["glycosylated hemoglobin A measurement", "Fasting blood glucose measurement (mg/dL)", "Serum creatinine (mg/dL)", "SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE", "SERUM GLUTAMIC-PYRUVIC TRANSAMINASE", "Platelets"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 8,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "hepatitisC":{
+       "id": "bahmni.registration.conceptSetGroup.hepatitisC",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Hepatitis C",
+           "conceptNames": ["Date of DAA initiation", "Date of DAA termination", "HCV viral load"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 9,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "otherTests":{
+       "id": "bahmni.registration.conceptSetGroup.otherTests",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Other tests",
+           "conceptNames": ["ECG", "Spirometry (conclusion)", "Thyroid stimulating hormone test", "Thyroxine test", "Tri-iodothyronine test"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 10,
+       "requiredPrivilege": "Edit Visits"
+   },
+   "entranceAndExit":{
+       "id": "bahmni.registration.conceptSetGroup.entranceAndExit",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Entrance and Exit",
+           "conceptNames": ["Date of entry into cohort", "Date of exit from cohort", "Exit outcome of patient", "DATE OF DEATH", "Cause of death, non-coded (text)"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 11,
        "requiredPrivilege": "Edit Visits"
    }
 }
