@@ -32,14 +32,16 @@
         "requiredPrivilege": "View Patients"
     },
     "patientDiagnosis":{
-        "id": "bahmni.registration.conceptSetGroup.patientDiagnosis",
-        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
-        "type": "forms",
-        "extensionParams": {
-            "formName": "Patient Diagnosis",
-            "conceptNames": ["Diagnosis", "Diagnosis date", "Diagnosis date", "Diagnosis or co-morbidities, other"],
-            "showLatest": true
-        },
-        "order": 1
-    }
+       "id": "bahmni.registration.conceptSetGroup.patientDiagnosis",
+       "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+       "type": "forms",
+       "extensionParams": {
+           "formName": "Patient Diagnosis",
+           "conceptNames": ["Diagnosis date"],
+           "required":true,
+           "showLatest": true
+       },
+       "order": 4,
+       "requiredPrivilege": "Edit Visits"
+   }
 }
