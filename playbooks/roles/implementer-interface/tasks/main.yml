@@ -4,6 +4,7 @@
     dest: /opt/bahmni-implementer-interface.rpm
     mode: 0755
     force: yes
+    timeout: 30
 - name: check if implementer-interface is installed
   yum:
     list: bahmni-implementer-interface
