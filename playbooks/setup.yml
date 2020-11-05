@@ -9,3 +9,5 @@ visitclosemodule: https://github.com/DWB-eHealth/dependencies/raw/master/visit-c
 webservices: https://github.com/DWB-eHealth/dependencies/raw/master/webservices.rest-2.24.0.omod
 initializer: https://openmrs.jfrog.io/artifactory/mekom-solutions-cache/org/openmrs/module/initializer-omod/2.1.0-SNAPSHOT/initializer-omod-2.1.0-20200916.195428-7.jar
 openconceptlab: https://github.com/DWB-eHealth/dependencies/raw/master/openconceptlab-1.2.5-SNAPSHOT.omod
+react: https://unpkg.com/react@16.10.2/umd/react.production.min.js
+reactdom: https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js

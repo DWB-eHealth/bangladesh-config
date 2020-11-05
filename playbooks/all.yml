@@ -13,3 +13,5 @@
     - { role: openconceptlab, tags: openconceptlab }
     - { role: initializer, tags: initializer }
     - { role: openmrs, tags: openmrs }
+    - { role: react, tags: react }
+    - { role: reactdom, tags: reactdom }
