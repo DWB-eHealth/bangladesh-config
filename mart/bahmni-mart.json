@@ -117,6 +117,20 @@
       ]
     },
     {
+      "name": "Registration Second Page",
+      "type": "reg",
+      "columnsToIgnore": [],
+      "separateTableConfig": {
+        "enableForAddMoreAndMultiSelect": true,
+        "separateTables": []
+      },
+      "incrementalUpdateConfig": {
+        "updateOn": "encounter_id",
+        "eventCategory": "Encounter",
+        "openmrsTableName": "encounter"
+      }
+    },
+    {
       "name": "Disposition Data",
       "type": "disposition",
       "columnsToIgnore": [],
@@ -157,6 +171,10 @@
     {
       "name": "patient_details_view",
       "sourceFilePath": "classpath:viewSql/patientDetailsView.sql"
+    },
+    {
+      "name": "patient_information_view",
+      "sourceFilePath": "classpath:viewSql/patientInformationView.sql"
     },
     {
       "name": "patient_appointment_view",
