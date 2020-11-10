@@ -7,7 +7,7 @@ Bangladesh implementation configuration
 ```$ yum install -y https://kojipkgs.fedoraproject.org//packages/zlib/1.2.11/19.fc30/x86_64/zlib-1.2.11-19.fc30.x86_64.rpm```
 
 * Get Bahmni 0.92 installer  
-```$ yum install -y https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.92-155.noarch.rpm```
+```$ yum install https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.92-155.noarch.rpm -y```
 
 * Get the bahmni configuration files  
 ```$ cd /etc/bahmni-installer/deployment-artifacts/ && wget https://github.com/DWB-eHealth/bangladesh-config/archive/master.zip && unzip master.zip && mv bangladesh-config bangladesh_config && rm master.zip```
