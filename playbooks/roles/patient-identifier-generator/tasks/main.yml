@@ -1,0 +1,19 @@
+- name: Find existing visit close module omod
+  find:
+    paths: /opt/openmrs/modules
+    patterns: visitclosemodule*.omod
+  register: result
+
+- name: Delete visit close module omod
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ result.files }}"
+
+- name: Get visit close module from GitHub and place it in /opt/openmrs/modules
+  get_url:
+      url: "{{ visitclosemodule }}"
+      dest: /opt/openmrs/modules/visitclosemodule.omod
+      mode: 0644
+- name: Change ownership of visit close module file
+  action: file state=file path=/opt/openmrs/modules/visitclosemodule.omod owner=bahmni group=bahmni

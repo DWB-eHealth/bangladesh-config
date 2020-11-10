@@ -1,14 +1,13 @@
-- hosts: bahmni-emr
-  sudo: yes
+- hosts: localhost
+  become: yes
   roles:
-    - { role: bahmni-mysql-cache-properties, tags: mysql_cache }
-    - { role: bahmni-92-mysql-performance, tags: mysql_performance }
+    - { role: bahmni-core, tags: bahmni_core }
+    - { role: bahmni-apps, tags: bahmni_apps }
+    - { role: implementer-interface, tags: implementer_interface  }
+    - { role: bahmni-ie-apps, tags: bahmni_ie_apps }
     - { role: appointments, tags: appointments }
-    - { role: bahmni-core, tags: bahmni-core }
-    - { role: bahmni-ie-apps, tags: bahmni-ie-apps }
-    - { role: bahmni-msf-module, tags: bahmni-msf-module }
-    - { role: bahmni-apps, tags: bahmni-apps }
-    - { role: implementer-interface, tags: implementer-interface }
-    - { role: bahmni-amman-exports, tags: bahmni-amman-exports }
-    - { role: print-forms, tags: print-forms }
-    - { role: appointment-frontend, tags: appointment-frontend }
+    - { role: appointment-frontend, tags: appointment_frontend }
+    - { role: patient-identifier-generator, tags: patient_identifier_generator }
+    - { role: visit-close-module, tags: visit_close_module }
+    - { role: openconceptlab, tags: openconceptlab }
+    - { role: initializer, tags: initializer }

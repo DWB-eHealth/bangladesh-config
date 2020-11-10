@@ -1,0 +1,19 @@
+- name: Find existing openconceptlab omod
+  find:
+    paths: /opt/openmrs/modules
+    patterns: openconceptlab*.omod
+  register: result
+
+- name: Delete openconceptlab omod
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ result.files }}"
+
+- name: Get openconceptlab from GitHub and place it in /opt/openmrs/modules
+  get_url:
+      url: "{{ openconceptlab }}"
+      dest: /opt/openmrs/modules/openconceptlab.omod
+      mode: 0644
+- name: Change ownership of openconceptlab file
+  action: file state=file path=/opt/openmrs/modules/openconceptlab.omod owner=bahmni group=bahmni

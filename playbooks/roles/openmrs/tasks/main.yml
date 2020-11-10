@@ -1,0 +1,3 @@
+- name: restart openmrs
+  systemd: name=openmrs state=restarted
+  ignore_errors: yes  
