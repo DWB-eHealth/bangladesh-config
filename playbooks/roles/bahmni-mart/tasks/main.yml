@@ -1,0 +1,16 @@
+- name: Add cron job for bahmni-mart
+  cron:
+    name: Run bahmni-mart
+    day: "{{ bahmni_mart_cron_scheduler_days }}"
+    hour: "{{ bahmni_mart_cron_scheduler_hours }}"
+    minute: "{{ bahmni_mart_cron_scheduler_minutes }}"
+    state: present
+    job: bahmni-mart
+- name: Add cron job for bahmni-mart backup
+  cron:
+    name: Run bahmni-mart-backup
+    day: "{{ bahmni_mart_backup_cron_scheduler_days }}"
+    hour: "{{ bahmni_mart_backup_cron_scheduler_hours }}"
+    minute: "{{ bahmni_mart_backup_cron_scheduler_minutes }}"
+    state: present
+    job: bahmni-mart backup

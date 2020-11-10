@@ -1,0 +1,9 @@
+bahmni_repo_url: http://repo.mybahmni.org.s3.amazonaws.com/rpm/bahmni/
+two_factor_auth: disabled
+implementation_name: amman
+timezone: Asia/Amman
+omods: ["https://bahmni-msf.s3.amazonaws.com/artifacts/1.0/bahmnimsf-1.0-SNAPSHOT.omod", "https://bahmni-msf.s3.amazonaws.com/artifacts/2.1/bahmni-core/4.1/bahmnicore-0.86-SNAPSHOT.omod"]
+bahmniapps_url: https://bahmni-msf.s3.amazonaws.com/artifacts/2.1/bahmniApps/15.1/bahmniapps.zip
+nagios_contact_email: randomsome8@gmail.com
+ssmtp_auth_user: randomsome8@gmail.com
+ssmtp_auth_pass: pass123123

@@ -1,0 +1,7 @@
+bahmni_mart_cron_scheduler_days: "*/15"
+bahmni_mart_cron_scheduler_hours: "22"
+bahmni_mart_cron_scheduler_minutes: "30"
+
+bahmni_mart_backup_cron_scheduler_days: "*/15"
+bahmni_mart_backup_cron_scheduler_hours: "23"
+bahmni_mart_backup_cron_scheduler_minutes: "55"

@@ -1,19 +1,20 @@
-- name: Find existing bahmni.ie.apps omod
+- name: Find existing bahmni-msf omod
   find:
     paths: /opt/openmrs/modules
-    patterns: bahmni.ie.apps*.omod
+    patterns: bahmnimsf*.omod
   register: result
 
-- name: Delete bahmni.ie.apps omod
+- name: Delete bahmni-msf omod
   file:
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ result.files }}"
 
-- name: Get bahmni.ie.apps omod from s3 bucket and place it in /opt/openmrs/modules
+- name: Get bahmni-msf omod from s3 bucket and place it in /opt/openmrs/modules
   get_url:
-    url: "{{ bahmni_ie_apps }}"
+    url: "{{ bahmni_msf_omod }}"
     dest: /opt/openmrs/modules/
     mode: 0644
     owner: bahmni
     group: bahmni
+

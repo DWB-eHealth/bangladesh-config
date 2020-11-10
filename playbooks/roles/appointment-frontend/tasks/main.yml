@@ -1,0 +1,65 @@
+- name: Remove existing old zip from tmp
+  file:
+    path: "{{item}}"
+    state: absent
+  with_fileglob:
+  - /tmp/appointment-frontend*.zip
+
+- name: Get appointment-frontend zip artifact from s3 bucket
+  get_url:
+    url: "{{ appointment_frontend }}"
+    dest: /tmp
+    mode: 0755
+
+- name: Check if latest appointment-frontend is downloaded
+  shell: ls -d /tmp/appointment-frontend-*.zip
+  register: latest_appointment_frontend
+
+- name: unlinking /var/www/appointment-frontend
+  file:
+    path: "/var/www/appointments"
+    state: absent
+  when: latest_appointment_frontend.stdout|length !=0
+  ignore_errors: yes
+
+- name: Remove old appointment-frontend
+  shell: rm -rf /opt/bahmni-web/etc/appointment-frontend*
+  when: latest_appointment_frontend.stdout|length !=0
+  ignore_errors: yes
+
+- name: Get version of latest appointment-frontend
+  set_fact:
+    appointment_frontend_version: "{{ latest_appointment_frontend.stdout.split('/')[2] | regex_replace('appointment-frontend-','') | regex_replace('.zip','') }}"
+  when: latest_appointment_frontend.stdout|length !=0
+
+- name: Create new appointment-frontend directory
+  file:
+    path: /opt/bahmni-web/etc/appointments-{{ appointment_frontend_version }}
+    state: directory
+    owner: bahmni
+    group: bahmni
+  when: latest_appointment_frontend.stdout|length !=0
+
+- name: Unzip and move downloaded appointment-frontend file to /opt/bahmni-web/etc/
+  unarchive:
+    src: /tmp/appointment-frontend-{{ appointment_frontend_version }}.zip
+    dest: /opt/bahmni-web/etc/appointments-{{ appointment_frontend_version }}
+    owner: bahmni
+    group: bahmni
+  when: latest_appointment_frontend.stdout|length !=0
+
+- name: linking /var/www/appointment-frontend to appointment-frontend
+  file:
+    src: /opt/bahmni-web/etc/appointments-{{ appointment_frontend_version }}
+    dest: /var/www/appointments
+    owner: bahmni
+    group: bahmni
+    state: link
+  when: latest_appointment_frontend.stdout|length !=0
+
+- name: Inserting a line after a pattern in Ansible example
+  lineinfile:
+    dest: /etc/httpd/conf.d/ssl.conf
+    line: '                Alias /appointments-v2 /var/www/appointments'
+    insertafter:  Alias /implementer-interface /var/www/implementer_interface
+  when: latest_appointment_frontend.stdout|length !=0

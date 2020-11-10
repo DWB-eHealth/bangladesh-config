@@ -1,0 +1,10 @@
+- name: Add MySql cache properties for programe queues performance
+  lineinfile:
+    destfile: /etc/my.cnf
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line  }}'
+    insertafter:  '^[mysqld]'
+  with_items:
+    -  {  regexp:  '^query_cache_size=', line: 'query_cache_size=512M'  }
+    -  {  regexp:  '^query_cache_type=', line: 'query_cache_type=2'  }
+    -  {  regexp:  '^query_cache_limit=', line: 'query_cache_limit=128M'  }

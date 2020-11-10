@@ -12,8 +12,9 @@
 
 - name: Get bahmnicore rpm from s3 bucket and place it in /opt/openmrs/modules
   get_url:
-      url: "{{ bahmnicore }}"
-      dest: /opt/openmrs/modules/bahmnicore.omod
+      url: "{{ bahmni_core }}"
+      dest: /opt/openmrs/modules/
       mode: 0644
-- name: Change ownership of bahmnicore file
-  action: file state=file path=/opt/openmrs/modules/bahmnicore.omod owner=bahmni group=bahmni
+      owner: bahmni
+      group: bahmni
+

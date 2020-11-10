@@ -1,0 +1,51 @@
+- name: Remove existing old rpm from opt
+  file:
+    path: "{{item}}"
+    state: absent
+  with_fileglob:
+  - /opt/bahmni-amman-batch-*
+
+- name: Get bahmni-batch rpm for amman exports from s3 bucket
+  get_url:
+    url: "{{ bahmni_batch }}"
+    dest: /opt/
+    mode: 0755
+    force: yes
+
+- name: check if bahmni-batch is installed
+  yum:
+    list: bahmni-amman-batch
+  register: bahmni_amman_batch_info
+  ignore_errors: true
+
+- name: Uninstall bahmni-batch
+  yum:
+    name: bahmni-amman-batch
+    state: absent
+  when: bahmni_amman_batch_info is defined
+
+- find:
+    paths: /opt/
+    patterns: "bahmni-amman-batch*"
+  register: bahmni_amman_batch_rpm_with_version
+
+- name: install latest  bahmni-amman-batch rpm from opt
+  yum:
+    name: "{{ item['path'] }}"
+    state: present
+  with_items: "{{ bahmni_amman_batch_rpm_with_version['files'] }}"
+
+- name: Create a crontab to sync amman-exports directory on primary
+  cron:
+    name: "sync_amman_exports_cron"
+    minute: 59
+    hour: 23
+    user: "root"
+    job: "rsync -rh --progress -i --itemize-changes --update --rsync-path='sudo rsync' -pog {{amman_exports_dir}} -e 'ssh -o StrictHostKeyChecking=no' {{bahmni_support_user}}@{{item}}:{{amman_exports_dir}}/../"
+  when: "{{ (passive is not defined or passive != 'yes') }}"
+  with_items: "{{groups['bahmni-emr']}}"
+
+- name: Removing the bahmni-batch cron on secondary
+  shell: crontab -l -ubahmni | grep -v bahmni-batch  | crontab -ubahmni -;
+  when: "{{ (passive is defined and passive == 'yes') }}"
+  with_items: "{{groups['bahmni-emr']}}"

@@ -1,21 +1,36 @@
+- name: Remove existing old rpm from opt folder
+  file:
+    path: "{{item}}"
+    state: absent
+  with_fileglob:
+  - /opt/bahmni-implementer-interface-*
+
 - name: Get implementer-interface rpm from s3 bucket
   get_url:
-    url: "{{ implementerinterface }}"
-    dest: /opt/bahmni-implementer-interface.rpm
+    url: "{{ implementer_interface }}"
+    dest: /opt/
     mode: 0755
     force: yes
-    timeout: 30
+
 - name: check if implementer-interface is installed
   yum:
     list: bahmni-implementer-interface
   register: bahmni_implementer_interface_info
   ignore_errors: true
+
 - name: Uninstall implementer-interface
   yum:
     name: bahmni-implementer-interface
     state: absent
   when: bahmni_implementer_interface_info is defined
-- name: install implementer-interface rpm from opt
+
+- find:
+    paths: /opt/
+    patterns: "bahmni-implementer-interface*"
+  register: implementer_interface_rpm_with_version
+
+- name: install latest implementer-interface rpm from opt
   yum:
-    name: /opt/bahmni-implementer-interface.rpm
+    name: "{{ item['path'] }}"
     state: present
+  with_items: "{{ implementer_interface_rpm_with_version['files'] }}"

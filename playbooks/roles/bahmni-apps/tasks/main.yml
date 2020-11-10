@@ -1,33 +1,57 @@
-- name: Get bahmniapps zip artifact from GitHub
+- name: Remove existing old zip from tmp
+  file:
+    path: "{{item}}"
+    state: absent
+  with_fileglob:
+  - /tmp/bahmniapps*.zip
+
+- name: Get bahmniapps zip artifact from s3 bucket
   get_url:
     url: "{{ bahmniapps }}"
-    dest: /opt/bahmni-web/etc
+    dest: /tmp
     mode: 0755
 
-- stat: path=/opt/bahmni-web/etc/bahmniapps.zip
+- name: Check if latest bahmniapps is downloaded
+  shell: ls -d /tmp/bahmniapps-*.zip
   register: latest_bahmniapps
 
 - name: unlinking /var/www/bahmniapps
-  file: path=/var/www/bahmniapps state=absent
-  when: latest_bahmniapps.stat.exists == True
+  file:
+    path: "/var/www/bahmniapps"
+    state: absent
+  when: latest_bahmniapps.stdout|length !=0
 
-- name: Remove old bahmniapps backup
-  file: path=/opt/bahmni-web/etc/bahmniapps_backup state=absent
-  when: latest_bahmniapps.stat.exists == True
+- name: Remove old bahmniapps
+  shell: rm -rf /opt/bahmni-web/etc/bahmniapps*
+  when: latest_bahmniapps.stdout|length !=0
 
-- name: bahmniapps backup
-  command: mv /opt/bahmni-web/etc/bahmniapps /opt/bahmni-web/etc/bahmniapps_backup
-  when: latest_bahmniapps.stat.exists == True
-  ignore_errors: yes
+- name: Get version of latest bahmniapps
+  set_fact:
+    bahmniapps_version: "{{ latest_bahmniapps.stdout.split('/')[2] | regex_replace('bahmniapps-','') | regex_replace('.zip','') }}"
+  when: latest_bahmniapps.stdout|length !=0
 
-- name: Unzip downloaded bahmniapps file
-  command: unzip /opt/bahmni-web/etc/bahmniapps.zip -d /opt/bahmni-web/etc/bahmniapps
-  when: latest_bahmniapps.stat.exists == True
+- name: Create new bahmniapps directory
+  file:
+    path: /opt/bahmni-web/etc/bahmniapps-{{ bahmniapps_version }}
+    state: directory
+    owner: bahmni
+    group: bahmni
+  when: latest_bahmniapps.stdout|length !=0
 
-- name: Change ownership of bahmniapps file
-  action: file state=directory recurse=yes path=/opt/bahmni-web/etc/bahmniapps owner=bahmni group=bahmni
-  when: latest_bahmniapps.stat.exists == True
+- name: Unzip and move downloaded bahmniapps file to /opt/bahmni-web/etc/
+  unarchive:
+    src: /tmp/bahmniapps-{{ bahmniapps_version }}.zip
+    dest: /opt/bahmni-web/etc/bahmniapps-{{ bahmniapps_version }}
+    owner: bahmni
+    group: bahmni
+  when: latest_bahmniapps.stdout|length !=0
 
 - name: linking /var/www/bahmniapps to bahmniapps
-  file: src=/opt/bahmni-web/etc/bahmniapps dest=/var/www/bahmniapps owner=bahmni group=bahmni state=link
-  when: latest_bahmniapps.stat.exists == True
+  file:
+    src: /opt/bahmni-web/etc/bahmniapps-{{ bahmniapps_version }}
+    dest: /var/www/bahmniapps
+    owner: bahmni
+    group: bahmni
+    state: link
+  when: latest_bahmniapps.stdout|length !=0
+

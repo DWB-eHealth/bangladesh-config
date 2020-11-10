@@ -1,0 +1,10 @@
+- name: Add MySql properties for bahmni-92(mysql-5.7) for better performance
+  lineinfile:
+    destfile: /etc/my.cnf
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line  }}'
+    insertafter:  '^[mysqld]'
+  with_items:
+  -  {  regexp:  '^innodb_buffer_pool_size=', line: 'innodb_buffer_pool_size=2G'  }
+  -  {  regexp:  '^innodb_buffer_pool_instances=', line: 'innodb_buffer_pool_instances=8'  }
+  -  {  regexp:  '^optimizer_switch=', line: 'optimizer_switch=derived_merge=off,duplicateweedout=off,condition_fanout_filter=off'}

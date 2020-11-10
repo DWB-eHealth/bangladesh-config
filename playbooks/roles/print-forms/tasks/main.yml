@@ -1,0 +1,57 @@
+- name: Inserting a line after a pattern in Ansible example
+  lineinfile:
+    dest: /etc/httpd/conf.d/print_forms_ssl.conf
+    line: Alias /print-forms /var/www/print-forms/
+    state: present
+    create: yes
+    owner: bahmni
+    group: bahmni
+
+- name: Remove existing old zip from tmp
+  file:
+    path: "{{item}}"
+    state: absent
+  with_fileglob:
+  - /tmp/print-forms*.zip
+
+- name: Get printforms zip artifact from s3 bucket
+  get_url:
+    url: "{{ print_forms }}"
+    dest: /tmp
+
+- name: Check if latest printforms is downloaded
+  shell: ls -d /tmp/print-forms-*.zip
+  register: latest_print_forms
+
+- name: unlinking /var/www/print-forms
+  file:
+    path: "/var/www/print-forms"
+    state: absent
+  when: latest_print_forms.stdout|length !=0
+  ignore_errors: yes
+
+- name: Remove old printforms
+  shell: rm -rf /opt/bahmni-web/etc/print-forms*
+  when: latest_print_forms.stdout|length !=0
+  ignore_errors: yes
+
+- name: Get version of latest printforms
+  set_fact:
+    print_forms_version: "{{ latest_print_forms.stdout.split('/')[2] | regex_replace('print-forms-','') | regex_replace('.zip','') }}"
+  when: latest_print_forms.stdout|length !=0
+
+- name: Unzip and move downloaded printforms file to /opt/bahmni-web/etc/
+  unarchive:
+    src: /tmp/print-forms-{{ print_forms_version }}.zip
+    dest: /opt/bahmni-web/etc/
+  when: latest_print_forms.stdout|length !=0
+
+- name: Add version to print-forms directory
+  command: mv /opt/bahmni-web/etc/print-forms /opt/bahmni-web/etc/print-forms-{{ print_forms_version }}
+
+- name: linking /var/www/printforms to printforms
+  file:
+    src: /opt/bahmni-web/etc/print-forms-{{ print_forms_version }}
+    dest: /var/www/print-forms
+    state: link
+  when: latest_print_forms.stdout|length !=0
