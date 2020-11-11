@@ -54,3 +54,4 @@
     group: bahmni
     state: link
   when: latest_bahmniapps.stdout|length !=0
+

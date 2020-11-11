@@ -114,8 +114,8 @@
             "patientSearchResults": {
                   "personAttributes": {
                       "fields": [
-                        "Status of Patient",
-                        "Patient phone number"
+                        "Patient phone number",
+                        "Status of Patient"
                       ]
                   }
               },
