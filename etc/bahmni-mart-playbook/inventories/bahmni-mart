@@ -1,0 +1,23 @@
+localhost ansible_connection=local
+
+[bahmni-emr-db]
+localhost
+
+[bahmni-mart]
+localhost
+
+[bahmni-mart-db]
+localhost
+
+[metabase]
+localhost
+
+[metabase-db]
+localhost
+
+[local:children]
+bahmni-mart
+bahmni-mart-db
+bahmni-emr-db
+metabase
+metabase-db

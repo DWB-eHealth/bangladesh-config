@@ -1,0 +1,27 @@
+bahmni_mart_version: "{{ bahmni_mart_version }}"
+bahmni_mart_url: "https://v2-artefacts.s3.ap-south-1.amazonaws.com/bahmni-mart/build/bahmni-mart-2.0.4-97.noarch.rpm"
+openmrs_db_name: openmrs
+openmrs_db_username: openmrs-user
+openmrs_db_password: "{{ openmrs_db_password }}"
+openmrs_db_server: "{{ groups['bahmni-emr-db'][0] | default('localhost', true)}}"
+bahmni_user: bahmni
+bahmni_group: bahmni
+analytics_db_server: "{{ groups['bahmni-mart-db'][0] | default('localhost', true)}}"
+analytics_db_name: analytics
+analytics_db_user: analytics
+analytics_db_password: "{{ analytics_db_password }}"
+analytics_db_port: 5432
+bahmni_mart_scdf_schema_name: bahmni_mart_scdf
+bahmni_mart_config_file: "/var/www/bahmni_config/bahmni-mart/bahmni-mart.json"
+default_app_config_file_path: "/var/www/bahmni_config/openmrs/apps/clinical/app.json"
+implementation_app_config_file_path: "/var/www/implementation_config/openmrs/apps/clinical/app.json"
+default_extension_config_file_path: "/var/www/bahmni_config/openmrs/apps/registration/extension.json"
+implementation_extension_config_file_path: "/var/www/implementation_config/openmrs/apps/registration/extension.json"
+bahmni_mart_log_path: "/opt/bahmni-mart/log/bahmni-mart.log"
+bahmni_mart_logback_xml_path: "/opt/bahmni-mart/properties/logback-spring.xml"
+liquibase_changelog_path: "/opt/bahmni-mart/conf/liquibase.xml"
+postgresql_jar_name: "postgresql-42.2.2.jar"
+postgresql_jar_location: "/opt/bahmni-mart/lib"
+mail_subject: ''
+mail_from: ''
+mail_recipients: ''
