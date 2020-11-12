@@ -40,7 +40,9 @@
             "Relationship with the patient",
             "Phone number",
             "Address",
-            "Previous MSF ID"
+            "Previous MSF ID",
+            "Mazhi",
+            "Camp location"
           ]
         },
         {
