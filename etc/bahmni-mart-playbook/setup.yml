@@ -1,0 +1,24 @@
+bahmni_mart_version: "2.0.4-97"
+openmrs_db_password: P@ssw0rd
+metabase_db_password: password
+analytics_db_password: password
+postgres_password: password
+metabase_with_ssl: false
+analytics_db_user: analytics
+metabase_db_user: metabase
+analytics_db_name: analytics
+metabase_db_name: metabase
+
+# This parameter is specific to msf and should be updated at the point of release to fetch the latest stable artifact
+msf_release_version: ""
+# When metabase_with_ssl is true you can choose for one of the following
+  # lets'encrypt ssl: where bahmni_lets_encrypt_cert_dir and metabase_keystore_password are mandatory
+  # custom ssl: where primary_custom_keystore_location and metabase_keystore_password are mandatory
+
+# let's encrypt ssl
+bahmni_lets_encrypt_cert_dir: ""
+
+# custom ssl
+custom_keystore_location: ""
+
+metabase_keystore_password: ""
