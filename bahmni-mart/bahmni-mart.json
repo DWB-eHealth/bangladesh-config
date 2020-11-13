@@ -23,8 +23,18 @@
       ]
     },
     {
+      "name": "Bed Management",
+      "type": "bedManagement",
+      "chunkSizeToRead": "500"
+    },
+    {
       "name": "Location",
       "type": "location",
+      "chunkSizeToRead": "500"
+    },
+    {
+      "name": "Operation Theater",
+      "type": "operationTheater",
       "chunkSizeToRead": "500"
     },
     {
@@ -35,6 +45,12 @@
         {
           "tableName": "person_attributes",
           "columnsToIgnore": [
+            "primaryContact",
+            "secondaryContact",
+            "primaryRelative",
+            "familyNameLocal",
+            "givenNameLocal",
+            "middleNameLocal",
             "Patient phone number",
             "Full name",
             "Relationship with the patient",
@@ -48,13 +64,13 @@
         {
           "tableName": "person_details_default",
           "columnsToIgnore": [
-            "person_id",
             "prefix",
             "given_name",
+            "middle_name",
             "family_name_prefix",
             "family_name",
-            "family_name_suffix",
-            "birthdate"
+            "family_name2",
+            "family_name_suffix"
           ]
         }
       ]
@@ -70,9 +86,28 @@
       "chunkSizeToRead": "500"
     },
     {
+      "name": "Medication And Orders",
+      "type": "medicationAndOrders",
+      "chunkSizeToRead": "500",
+      "groupedJobConfigs": [
+        {
+          "tableName": "medication_data_default",
+          "columnsToIgnore": [
+            "instructions",
+            "stop_notes"
+          ]
+        }
+      ]
+    },
+    {
       "name": "Diagnoses And Conditions",
       "type": "diagnosesAndConditions",
       "chunkSizeToRead": "500"
+    },
+    {
+      "name": "Bacteriology Data",
+      "conceptReferenceSource": "",
+      "type": "bacteriology"
     },
     {
       "name": "MetaData Dictionary",
@@ -179,8 +214,36 @@
       "sourceFilePath": "classpath:viewSql/patientInformationView.sql"
     },
     {
+      "name": "bed_management_view",
+      "sourceFilePath": "classpath:viewSql/bedManagementView.sql"
+    },
+    {
+      "name": "bed_management_locations_view",
+      "sourceFilePath": "classpath:viewSql/locationWiseDischarge.sql"
+    },
+    {
+      "name": "patient_bed_view",
+      "sourceFilePath": "classpath:viewSql/patientBedView.sql"
+    },
+    {
+      "name": "patient_operation_theater_view",
+      "sourceFilePath": "classpath:viewSql/patientOperationTheaterView.sql"
+    },
+    {
       "name": "patient_appointment_view",
       "sourceFilePath": "classpath:viewSql/patientAppointmentView.sql"
+    },
+    {
+      "name": "patient_program_medication_view",
+      "sourceFilePath": "classpath:viewSql/patientProgramMedicationView.sql"
+    },
+    {
+      "name": "patient_diagnosis_condition_view",
+      "sourceFilePath": "classpath:viewSql/patientDiagnosisConditionView.sql"
+    },
+    {
+      "name": "patient_bed_tags_history_view",
+      "sourceFilePath": "classpath:viewSql/patientBedTagView.sql"
     }
   ]
 }
