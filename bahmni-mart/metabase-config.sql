@@ -1,3 +1,31 @@
+/* Show specific tables from the list of tables in Metabase UI
+visibility_type='technical' will hide a table from the UI
+active=false will hide a table from then query builder ("New Question") - not from the database
+*/
+UPDATE public.metabase_table
+SET active=true, visibility_type=null
+WHERE display_name IN (
+  'Patient Identifier',
+  'Person Attributes',
+  'Person Details Default',
+  'Person Address Default',
+  'Patient Details View',
+  'Patient Information View',
+  'Patient Diagnosis',
+  'Co Morbid Conditions',
+  'Patient Vitals',
+  'Patient Data',
+  'Point Of Care Tests',
+  'Lab Tests',
+  'Hepatitis C',
+  'Other Tests',
+  'Entrance And Exit',
+  'Patient Visit Details Default',
+  'Patient Visits Encounters View',
+  'Patient Appointment Default',
+  'Patient Appointment View'
+);
+
 /* Hide specific tables from the list of tables in Metabase UI
 visibility_type='technical' will hide a table from the UI
 active=false will hide a table from then query builder ("New Question") - not from the database
@@ -5,15 +33,12 @@ active=false will hide a table from then query builder ("New Question") - not fr
 UPDATE public.metabase_table
 SET active=true, visibility_type='technical'
 WHERE display_name IN (
-  'Patient Diagnosis',
-  'Patient Data',
+
   'Program Work Flow States Default',
   'Location Default',
   'Patient Program State View',
   'Surgical Appointment Attributes',
-  'Person Details Default',
   'Location Tag Map Default',
-  'Co Morbid Conditions',
   'Surgical Appointment Default',
   'Current Bed Details Default',
   'Disposition Set',
@@ -21,17 +46,12 @@ WHERE display_name IN (
   'Patient Encounter Details Default',
   'Patient Program Data Default',
   'Database Changelog Lock',
-  'Patient Visits Encounters View',
   'Patient Allergy Status Default',
   'Address Hierarchy Level Default',
   'Conditions Default',
   'Provider Attributes',
   'Markers',
-  'Patient Identifier',
-  'Hepatitis C',
   'Batch Job Execution',
-  'Entrance And Exit',
-  'Person Address Default',
   'Patient Program View',
   'Programs Default',
   'Program Attributes',
@@ -40,20 +60,15 @@ WHERE display_name IN (
   'Person Attribute Info Default',
   'Visit Attributes',
   'Bed Management View',
-  'Patient Appointment View',
   'Bed Tags Default',
   'Batch Step Execution Context',
-  'Point Of Care Tests',
   'Task Execution Params',
   'Program Outcomes Default',
-  'Person Attributes',
   'Task Execution',
   'Appointment Service Default',
-  'Patient Details View',
   'Task Task Batch',
   'Patient Bed View',
   'Location Attribute Details Default',
-  'Patient Vitals',
   'Patient Bed Tags History View',
   'Meta Data Dictionary',
   'Bed Patient Assignment Default',
@@ -61,22 +76,17 @@ WHERE display_name IN (
   'Patient Operation Theater View',
   'Bacteriology Concept Set',
   'Surgical Block Default',
-  'Other Tests',
   'Appointment Admin Panel View',
   'Patient State Default',
   'Batch Job Instance',
   'Program Work Flow Default',
   'Visit Attribute Details Default',
-  'Patient Visit Details Default',
   'Batch Job Execution Params',
   'Visit Diagnoses',
-  'Patient Appointment Default',
   'Surgical Appointment Attribute Type Details Default',
   'Service Availability Default',
-  'Lab Tests',
-  'Patient Information View',
   'Appointment Speciality Default',
   'Batch Step Execution',
   'Batch Job Execution Context',
   'Provider Attribute Details Default'
-)
+);
