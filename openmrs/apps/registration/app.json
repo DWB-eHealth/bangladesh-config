@@ -25,6 +25,7 @@
             "activeVisitUuid"
         ],
         "config" : {
+          "disablePhotoCapture": true,
           "mandatoryPersonAttributes" : [
                 "Status of Patient",
                 "Patient phone number"
@@ -77,28 +78,6 @@
             "isLastNameMandatory": true,
             "showSaveConfirmDialog": false,
             "showBirthTime": false,
-            "printOptions": [
-                {
-                    "translationKey": "REGISTRATION_PRINT_REG_CARD_LOCAL_KEY",
-                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/print_local.html",
-                    "shortcutKey": "l"
-                },
-                {
-                    "translationKey": "REGISTRATION_PRINT_REG_CARD_KEY",
-                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/print.html",
-                    "shortcutKey": "p"
-                },
-                {
-                    "translationKey": "REGISTRATION_PRINT_SUPPLEMENTAL_PAPER",
-                    "templateUrl": "/bahmni_config/openmrs/apps/registration/supplementalPaperLayout/print.html",
-                    "shortcutKey": "r"
-                },
-                {
-                    "translationKey": "REGISTRATION_PRINT_WITH_BARCODE",
-                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/printWithBarcode.html",
-                    "shortcutKey": "c"
-                }
-            ],
             "fieldValidation" : {
                 "familyName" : {"pattern" : "[a-zA-Z]{0,50}", "errorMessage" : "Should not exceed 50 characters"},
                 "givenName" : {"pattern" : "[a-zA-Z]{0,50}", "errorMessage" : "Should not exceed 50 characters"},
