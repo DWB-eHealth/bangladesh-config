@@ -9,11 +9,17 @@ localhost
 [bahmni-mart-db]
 localhost
 
+[bahmni-mart-db-slave]
+
+[bahmni-mart-scdf]
+
 [metabase]
 localhost
 
 [metabase-db]
 localhost
+
+[metabase-db-slave]
 
 [local:children]
 bahmni-mart
