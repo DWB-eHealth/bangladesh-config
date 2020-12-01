@@ -8,3 +8,6 @@ Uuid,Void/Retire,Name,Description,Format,Foreign uuid,Searchable,Edit privilege,
 ,,Relationship with the patient,Relationship with the patient,java.lang.String,,,,7
 ,,Phone number,Phone number,java.lang.String,,,,8
 ,,Address,Address,java.lang.String,,,,9
+,,Block number ,Block number ,java.lang.String,,,,10
+,,Father's name,Father's name,java.lang.String,,,,11
+,,Husband's name,Husband's name,java.lang.String,,,,12
