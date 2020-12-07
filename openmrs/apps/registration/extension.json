@@ -50,7 +50,7 @@
        "type": "forms",
        "extensionParams": {
            "formName": "Patient Vitals",
-           "conceptNames": ["Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure"],
+           "conceptNames": ["Date/time recorded", "Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure"],
            "required":true,
            "showLatest": true
        },
@@ -89,7 +89,7 @@
        "type": "forms",
        "extensionParams": {
            "formName": "Lab Tests",
-           "conceptNames": ["glycosylated hemoglobin A measurement", "Fasting blood glucose measurement (mg/dL)", "Serum creatinine (mg/dL)", "SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE", "SERUM GLUTAMIC-PYRUVIC TRANSAMINASE", "Platelets"],
+           "conceptNames": ["Date of sample collected for HbA1c", "glycosylated hemoglobin A measurement", "Date of sample collected for Fasting blood sugar (FBS)", "Fasting blood glucose measurement (mg/dL)", "Date of sample collected for Creatinine", "Serum creatinine (mg/dL)", "Date of sample collected for AST", "SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE", "Date of sample collected for ALT", "SERUM GLUTAMIC-PYRUVIC TRANSAMINASE", "Date of sample collected for Platelet", "Platelets"],
            "required":true,
            "showLatest": true
        },
@@ -102,7 +102,7 @@
        "type": "forms",
        "extensionParams": {
            "formName": "Hepatitis C",
-           "conceptNames": ["Date of DAA initiation", "Date of DAA termination", "HCV viral load"],
+           "conceptNames": ["Date of DAA initiation", "Date of DAA termination", "Date of sample collected for HCV viral load", "HCV viral load"],
            "required":true,
            "showLatest": true
        },
