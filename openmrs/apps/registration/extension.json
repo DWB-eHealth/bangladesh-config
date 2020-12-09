@@ -50,7 +50,7 @@
        "type": "forms",
        "extensionParams": {
            "formName": "Patient Vitals",
-           "conceptNames": ["Date/time recorded", "Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure"],
+           "conceptNames": ["Date/time recorded", "Weight (kg)", "Height (cm)", "Body mass index", "Systolic blood pressure", "Diastolic blood pressure", "SpO2"],
            "required":true,
            "showLatest": true
        },
@@ -115,7 +115,7 @@
        "type": "forms",
        "extensionParams": {
            "formName": "Other tests",
-           "conceptNames": ["ECG", "Spirometry (conclusion)", "Thyroid stimulating hormone test", "Thyroxine test", "Tri-iodothyronine test"],
+           "conceptNames": ["ECG", "ECG notes", "Spirometry (conclusion)", "Thyroid stimulating hormone test", "Thyroxine test", "Tri-iodothyronine test"],
            "required":true,
            "showLatest": true
        },
