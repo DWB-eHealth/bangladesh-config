@@ -1,4 +1,4 @@
-
+create view patient_summary_with_appointments as
 select
   pdd.person_id as patient_id ,
   pdd.gender ,
@@ -49,4 +49,4 @@ group by
   pad.appointment_id ,
   pad.appointment_location ,
   pad.appointment_service ,
-  pad.appointment_start_time 
+  pad.appointment_start_time
