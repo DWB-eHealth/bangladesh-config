@@ -10,7 +10,8 @@ select
   pad.appointment_id ,
   pad.appointment_location ,
   pad.appointment_service ,
-  pad.appointment_start_time
+  pad.appointment_start_time ,
+  pad.appointment_status
 from person_details_default pdd
 left outer join person_attributes pat
 	on pat.person_id = pdd.person_id
@@ -49,4 +50,5 @@ group by
   pad.appointment_id ,
   pad.appointment_location ,
   pad.appointment_service ,
-  pad.appointment_start_time
+  pad.appointment_start_time ,
+  pad.appointment_status
