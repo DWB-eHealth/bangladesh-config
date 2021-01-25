@@ -149,7 +149,7 @@
         ]
       },
       "conceptReferenceSource": "",
-      "ignoreAllFreeTextConcepts": true,
+      "ignoreAllFreeTextConcepts": false,
       "columnsToIgnore": [
         "Image"
       ]
