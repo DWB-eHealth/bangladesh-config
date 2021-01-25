@@ -1,4 +1,3 @@
-create view patient_summary_with_appointments as
 select
   pdd.person_id as patient_id ,
   pdd.gender ,

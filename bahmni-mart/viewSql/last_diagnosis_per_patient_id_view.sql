@@ -1,4 +1,3 @@
-create view last_diagnosis_per_patient_id as
 select
      pi.patient_id ,
      pd2.visit_id ,

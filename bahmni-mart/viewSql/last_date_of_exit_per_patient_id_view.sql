@@ -1,4 +1,3 @@
-create view last_date_of_exit_per_patient_id as
 select
 	pi.patient_id ,
 	eae.visit_id ,

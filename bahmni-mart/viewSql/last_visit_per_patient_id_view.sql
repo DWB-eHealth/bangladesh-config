@@ -1,4 +1,3 @@
-create view first_visit_per_patient_id as
 select
 	pi.patient_id ,
 	pvdd.visit_id ,

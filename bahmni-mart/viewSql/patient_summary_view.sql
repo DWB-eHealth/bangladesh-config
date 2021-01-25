@@ -1,4 +1,3 @@
-create view patient_summary as
 select
   pdd.person_id as patient_id ,
   pdd.gender ,
@@ -8,6 +7,8 @@ select
   pvdd.location_name ,
   pvdd.visit_start_date ,
   pvdd.visit_end_date ,
+  eae.date_of_entry_into_cohort as "first_date_of_entry_into_cohort" ,
+  eae3.date_of_exit_from_cohort as "last_date_of_exit_from_cohort" ,
   pd.diagnosis as last_diagnosis ,
   pd.diagnosis_date as last_diagnosis_date
 from person_details_default pdd
@@ -37,6 +38,20 @@ left outer join patient_diagnosis pd
        from patient_diagnosis pd3
        where pd3.patient_id = pdd.person_id and pd3.diagnosis_date is not null
      )
+left outer join entrance_and_exit eae
+   on eae.patient_id = pdd.person_id
+   and eae.date_of_entry_into_cohort = (
+     	select MIN(date_of_entry_into_cohort)
+     	from entrance_and_exit eae2
+     	where eae2.patient_id = pdd.person_id and eae2.date_of_entry_into_cohort is not null
+     )
+ left outer join entrance_and_exit eae3
+    on eae3.patient_id = pdd.person_id
+    and eae3.date_of_exit_from_cohort = (
+      	select MAX(date_of_exit_from_cohort)
+      	from entrance_and_exit eae4
+      	where eae4.patient_id = pdd.person_id and eae4.date_of_exit_from_cohort is not null
+      )
 where pat.person_id is not null
 group by
   pdd.person_id ,
@@ -47,5 +62,7 @@ group by
   pvdd.location_name ,
   pvdd.visit_start_date ,
   pvdd.visit_end_date ,
+  eae.date_of_entry_into_cohort ,
+  eae3.date_of_exit_from_cohort ,
   pd.diagnosis ,
   pd.diagnosis_date
