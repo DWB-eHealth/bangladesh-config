@@ -2,7 +2,12 @@ select
 	pi.patient_id ,
 	eae.date_of_entry_into_cohort ,
 	eae3.date_of_exit_from_cohort ,
-	EXTRACT(year FROM age(eae3.date_of_exit_from_cohort::date,eae.date_of_entry_into_cohort::date))*12 + EXTRACT(month FROM age(eae3.date_of_exit_from_cohort::date,eae.date_of_entry_into_cohort::date)) as "duration_months"
+	case
+	when eae3.date_of_exit_from_cohort is null then
+	EXTRACT(year FROM age(current_date::date,eae.date_of_entry_into_cohort::date))*12 + EXTRACT(month FROM age(current_date::date,eae.date_of_entry_into_cohort::date))
+	else
+	EXTRACT(year FROM age(eae3.date_of_exit_from_cohort::date,eae.date_of_entry_into_cohort::date))*12 + EXTRACT(month FROM age(eae3.date_of_exit_from_cohort::date,eae.date_of_entry_into_cohort::date))
+	end as "duration_months"
 from
 	patient_identifier pi
 left outer join entrance_and_exit eae
