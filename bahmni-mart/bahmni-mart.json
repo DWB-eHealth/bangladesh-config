@@ -243,6 +243,14 @@
     {
       "name": "time_in_cohort_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/time_in_cohort_view.sql"
+    },
+    {
+      "name": "hba1c_fbs_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/hba1c_fbs_view.sql"
+    },
+    {
+      "name": "blood_pressure_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_view.sql"
     }
   ]
 }
