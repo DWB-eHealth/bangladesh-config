@@ -1,8 +1,8 @@
 select
 	pi.patient_id ,
-	pvdd.visit_id ,
-	pvdd.visit_start_date ,
-	pvdd.visit_end_date
+	pvdd.visit_id as "last_visit_id",
+	pvdd.visit_start_date as "last_visit_start_date",
+	pvdd.visit_end_date as "last_visit_end_date"
 from
 	patient_identifier pi
 left outer join patient_visit_details_default pvdd

@@ -1,7 +1,9 @@
 select
 	pi.patient_id ,
-	eae.date_of_entry_into_cohort ,
-	eae3.date_of_exit_from_cohort ,
+	eae.visit_id as "first_visit_id" ,
+	eae.date_of_entry_into_cohort as "first_date_of_entry_into_cohort" ,
+	eae3.visit_id as "last_visit_id" ,
+	eae3.date_of_exit_from_cohort as "last_date_of_exit_from_cohort" ,
 	case
 	when eae3.date_of_exit_from_cohort is null then
 	EXTRACT(year FROM age(current_date::date,eae.date_of_entry_into_cohort::date))*12 + EXTRACT(month FROM age(current_date::date,eae.date_of_entry_into_cohort::date))
@@ -26,5 +28,7 @@ and eae3.date_of_exit_from_cohort = (
 )
 group by
 	pi.patient_id ,
+	eae.visit_id ,
 	eae.date_of_entry_into_cohort ,
+	eae3.visit_id ,
 	eae3.date_of_exit_from_cohort

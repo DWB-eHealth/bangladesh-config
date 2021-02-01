@@ -1,8 +1,8 @@
 select
 	pi.patient_id ,
-	eae.visit_id ,
-	eae.date_of_entry_into_cohort ,
-	eae.date_of_exit_from_cohort
+	eae.visit_id as "last_visit_id" ,
+	eae.date_of_entry_into_cohort as "last_date_of_entry_into_cohort" ,
+	eae.date_of_exit_from_cohort as "last_date_of_exit_from_cohort"
 from
 	patient_identifier pi
 left outer join entrance_and_exit eae
