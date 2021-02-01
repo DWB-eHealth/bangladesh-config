@@ -1,15 +1,16 @@
 select
-  pdd.person_id as patient_id ,
+  pdd.person_id as "patient_id" ,
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
-  pd.diagnosis as last_diagnosis ,
-  pd.diagnosis_date as last_diagnosis_date ,
-  pd.location_name ,
+  pd.diagnosis as "last_diagnosis" ,
+  pd.diagnosis_date as "last_diagnosis_date" ,
+  pd.location_name as "last_diagnosis_location" ,
   pad.appointment_id ,
   pad.appointment_location ,
   pad.appointment_service ,
   pad.appointment_start_time ,
+  pad.appointment_end_time ,
   pad.appointment_status
 from person_details_default pdd
 left outer join person_attributes pat
@@ -50,4 +51,5 @@ group by
   pad.appointment_location ,
   pad.appointment_service ,
   pad.appointment_start_time ,
+  pad.appointment_end_time ,
   pad.appointment_status

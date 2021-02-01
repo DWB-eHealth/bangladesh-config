@@ -3,14 +3,14 @@ select
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
-  pvdd.visit_id ,
-  pvdd.location_name ,
-  pvdd.visit_start_date ,
-  pvdd.visit_end_date ,
+  pvdd.visit_id as "last_visit_id" ,
+  pvdd.location_name as "last_visit_location" ,
+  pvdd.visit_start_date as "last_visit_start_date" ,
+  pvdd.visit_end_date as "last_visit_end_date" ,
   eae.date_of_entry_into_cohort as "first_date_of_entry_into_cohort" ,
   eae3.date_of_exit_from_cohort as "last_date_of_exit_from_cohort" ,
-  pd.diagnosis as last_diagnosis ,
-  pd.diagnosis_date as last_diagnosis_date
+  pd.diagnosis as "last_diagnosis" ,
+  pd.diagnosis_date as "last_diagnosis_date"
 from person_details_default pdd
 left outer join person_attributes pat
 	on pat.person_id = pdd.person_id

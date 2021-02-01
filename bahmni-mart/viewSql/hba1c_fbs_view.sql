@@ -6,7 +6,6 @@ SELECT
 FROM
 	lab_tests
 WHERE
-	hba1c > 8
+	hba1c < 8
  	OR
  	fasting_blood_sugar_fbs < 150
- 	
