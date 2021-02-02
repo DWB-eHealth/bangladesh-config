@@ -1,5 +1,9 @@
 select
   pdd.person_id as patient_id ,
+  case
+  	when eae.date_of_entry_into_cohort is not null and eae3.date_of_exit_from_cohort is null then
+  	true
+  end as "in_cohort" ,
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
@@ -55,6 +59,7 @@ left outer join entrance_and_exit eae
 where pat.person_id is not null
 group by
   pdd.person_id ,
+  in_cohort ,
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
