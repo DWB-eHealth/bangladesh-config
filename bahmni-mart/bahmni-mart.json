@@ -255,6 +255,10 @@
     {
       "name": "blood_pressure_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_view.sql"
+    },
+    {
+      "name": "first_date_of_daa_initiation_per_patient_id_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/first_date_of_daa_initiation_per_patient_id_view.sql"
     }
   ]
 }
