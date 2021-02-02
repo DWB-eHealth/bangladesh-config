@@ -1,6 +1,7 @@
 SELECT
 	patient_id ,
 	visit_id ,
+	hba1c ,
 	case
   	when hba1c <=6.5 then
   	'<=6.5'
