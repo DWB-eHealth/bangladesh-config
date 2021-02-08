@@ -259,6 +259,10 @@
     {
       "name": "first_date_of_daa_initiation_per_patient_id_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/first_date_of_daa_initiation_per_patient_id_view.sql"
+    },
+    {
+      "name": "vl_results_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/vl_results_view.sql"
     }
   ]
 }
