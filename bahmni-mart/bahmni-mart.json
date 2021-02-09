@@ -263,6 +263,10 @@
     {
       "name": "vl_results_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/vl_results_view.sql"
+    },
+    {
+      "name": "last_diagnosis_and_comorbid_conditions_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/last_diagnosis_and_comorbid_conditions_view.sql"
     }
   ]
 }
