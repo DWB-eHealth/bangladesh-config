@@ -267,6 +267,10 @@
     {
       "name": "last_diagnosis_and_comorbid_conditions_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/last_diagnosis_and_comorbid_conditions_view.sql"
+    },
+    {
+      "name": "blood_pressure_recorded_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_recorded_view.sql"
     }
   ]
 }
