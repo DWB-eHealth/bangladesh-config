@@ -14,7 +14,8 @@ SET
 UPDATE
    person_name
 SET
-   given_name = concat( 'AnonFN', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) ), family_name = concat( 'AnonLN', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) );
+   given_name = concat( 'AnonFN', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) ),
+   family_name = concat( 'AnonLN', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) );
 
 -- randomize +/- 6 months for persons older than ~15 yrs old
 UPDATE
@@ -54,13 +55,18 @@ WHERE
 UPDATE
    person
 SET
-   gender = 'F';
+   gender =
+   case
+   when gender = 'F' then 'M'
+   when gender = 'M' then 'F'
+   end;
 --
 -- Clear out login info
 --
 UPDATE
    users
 SET
+   username = concat( 'AnonUSR', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) ),
    password = '36ee23ea83437a6954bc35f6bb1ca7c564d9e096bf49180414cb3a38faca0f53be74afec961ccb0311d3125bc9310ca9cec98afa0510d2e62f2812e418b571a5',
    salt = '26a1b70790d383ffdb2f035a7f90b25794273b8a3f0104b0776db42cb4c98144c3e1e642282b2ec73b240957bcba48ca99bef1954b09d9090e681a584fd20ad7',
    secret_question = null,
@@ -70,7 +76,8 @@ WHERE
    (
       'admin',
       'superman',
-      'reports-user'
+      'reports-user',
+      'superman'
    )
 ;
 -- clear out the username/password stored IN the db
@@ -210,9 +217,13 @@ SET
        person_attribute_type pat
        ON pat.person_attribute_type_id = pa.person_attribute_type_id
        AND pat.name LIKE '%Status of Patient%'
-       AND pat.format = 'java.lang.String'
+       AND pat.format = 'org.openmrs.Concept'
   SET
-    pa.value = 201;
+    pa.value =
+    case
+    when pa.value = 201 then 200
+    when pa.value = 200 then 201
+    end;
 
 /* for all person attribute WHERE Patient phone number is getting captured */
 
