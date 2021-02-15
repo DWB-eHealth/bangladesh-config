@@ -52,6 +52,8 @@ SET
    death_date = date_add(death_date, interval cast(rand()* 91 - 91 as signed) day)
 WHERE
    death_date is not null;
+
+-- set opposite gender
 UPDATE
    person
 SET
@@ -127,7 +129,7 @@ SET
 --
 -- Bahmni customized
 --
--- identifiers (Assumes patient_identifier have been TRUNCATEd)
+-- identifiers (Assumes patient_identifier have been TRUNCATED)
 CREATE TABLE temp_patient_identifier_old(patient_id int, identifier varchar(256), PRIMARY KEY(patient_id));
 INSERT INTO
    temp_patient_identifier_old
@@ -141,7 +143,7 @@ INSERT INTO
    patient_identifier (patient_id, identifier, identifier_type, location_id, preferred, creator, date_created, voided, uuid)
    SELECT
       patient_id,
-      concat('PT', patient_id),
+      concat('AN', patient_id),
       (
          Select
             patient_identifier_type_id
@@ -171,6 +173,7 @@ INSERT INTO
       person;
 DROP TABLE temp_patient_identifier_old;
 DROP TABLE temp_person_uuid_old;
+
 --
 -- Bahmni specific
 --
@@ -313,7 +316,7 @@ UPDATE
 SET
    comments = CONCAT('anon-AppointmentComments', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) );
 
-/*  as the following comments fields having some sensitive info */
+/*  as the following comments and notes fields having some sensitive info */
 
 UPDATE
    obs
