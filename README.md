@@ -1,7 +1,7 @@
 # Bangladesh config  
 Bangladesh implementation configuration  
 
-## List of dependencies and artefact. 
+## List of dependencies and artefacts  
 https://docs.google.com/document/d/1jMvSAYu2yyy4MSbJ606gSRlwnCH0922EWf6n2tLaghA/edit?usp=sharing
 
 
