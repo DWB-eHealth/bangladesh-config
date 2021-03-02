@@ -272,5 +272,10 @@
       "name": "blood_pressure_recorded_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_recorded_view.sql"
     }
+    ,
+    {
+      "name": "drug_refill_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/drug_refill_view.sql"
+    }
   ]
 }
