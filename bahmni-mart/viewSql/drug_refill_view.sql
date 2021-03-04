@@ -7,8 +7,7 @@ SELECT
 FROM
 	patient_appointment_default pad
 WHERE
-	appointment_service = 'Pharmacy - Fast Track' OR
-	appointment_service = 'Pharmacy - Fast Track(NCD)'
+	appointment_service = 'Hep C drug refill'
 GROUP BY
 	patient_id ,
 	appointment_id ,
