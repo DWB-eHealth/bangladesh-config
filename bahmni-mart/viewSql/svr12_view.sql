@@ -25,6 +25,5 @@ left outer join hepatitis_c hc2
 		select MAX(visit_id)
 		from hepatitis_c hc3
 		where hc3.patient_id = hc2.patient_id and hc3.date_of_daa_termination is not null
-		limit 1
 	)
 where hc.hcv_viral_load is not null
