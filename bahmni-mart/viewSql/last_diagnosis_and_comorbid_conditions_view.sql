@@ -5,10 +5,13 @@ select
 	age ,
 	age_group ,
 	location_name ,
+	pa."Status_of_Patient" ,
 	diagnosis ,
 	concat('Primary Diagnosis') as "type" ,
 	diagnosis_date
 from patient_diagnosis pd
+left outer join person_attributes pa
+	on pa.person_id = pd.patient_id
 left outer join person_details_default pdd
 	on pdd.person_id = pd.patient_id
 where diagnosis is not null and diagnosis_date is not null
@@ -30,12 +33,15 @@ select
 	age ,
 	age_group ,
 	pd4.location_name ,
+	pa1."Status_of_Patient" ,
 	co_morbid_conditions ,
 	concat('Co-morbid condition') as "type" ,
 	pd4.diagnosis_date
 from co_morbid_conditions cmc
 left outer join patient_diagnosis pd4
 	on pd4.patient_id = cmc.patient_id
+left outer join person_attributes pa1
+	on pa1.person_id = cmc.patient_id
 left outer join person_details_default pdd
 	on pdd.person_id = cmc.patient_id
 where co_morbid_conditions is not null
