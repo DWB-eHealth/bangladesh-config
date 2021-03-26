@@ -3,6 +3,7 @@ select
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
+  pat."Status_of_Patient" ,
   case
   	when eae.date_of_entry_into_cohort is not null and eae3.date_of_exit_from_cohort is null then
   	true
@@ -64,6 +65,7 @@ group by
   pdd.gender ,
   pdd.age ,
   pdd.age_group ,
+  pat."Status_of_Patient" ,
   in_cohort ,
   eae.date_of_entry_into_cohort ,
   eae3.date_of_exit_from_cohort ,
