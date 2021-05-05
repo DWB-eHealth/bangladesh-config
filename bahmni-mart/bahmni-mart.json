@@ -279,6 +279,10 @@
     {
       "name": "svr12_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/svr12_view.sql"
+    },
+    {
+      "name": "patient_register_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/patient_register_view.sql"
     }
   ]
 }
