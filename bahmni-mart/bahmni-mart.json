@@ -283,6 +283,10 @@
     {
       "name": "patient_register_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/patient_register_view.sql"
+    },
+    {
+      "name": "BD_patient_register_view",
+      "sourceFilePath": "file:/home/bahmni/viewSql/BD_patient_register_draft.sql"
     }
   ]
 }
