@@ -289,7 +289,7 @@
       "sourceFilePath": "file:/home/bahmni/viewSql/BD_patient_register_draft.sql"
     },
         {
-      "name": "BD_patient_appointment_view",
+      "name": "BD_appointment_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/BD_appointment_view.sql"
     }
   ]
