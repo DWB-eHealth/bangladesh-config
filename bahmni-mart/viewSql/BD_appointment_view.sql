@@ -9,7 +9,7 @@ SELECT
 	pap.appointment_end_time AS "08_end_time",
 	pap.appointment_status AS "09_status",
 	pdd.person_id AS "10_patient_id",
-	pdd.gender AS "11_gender",
+	pdd.gender AS "11_sex",
 	EXTRACT(YEAR FROM (SELECT age( pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')))) AS "12_age_at_appointment",
 	age_group(pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')) As "13_age_group_at_appointment",
 	pa."Status_of_Patient" AS "14_status_of_patient",
