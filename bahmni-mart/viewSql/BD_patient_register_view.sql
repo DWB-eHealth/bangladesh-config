@@ -120,7 +120,7 @@ SELECT
 		ELSE NULL
 	END AS "44_HbA1c_checked_in last_12_months",
 	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs AS "45_last_fbs_date",
-	lfbs.fasting_blood_sugar_fbs AS "46_last_fbs_date",
+	lfbs.fasting_blood_sugar_fbs AS "46_last_fbs",
 	CASE 
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c < 8 OR lfbs.fasting_blood_sugar_fbs < 150) THEN 'Yes'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c >= 8 OR lfbs.fasting_blood_sugar_fbs >= 150) THEN 'No'
