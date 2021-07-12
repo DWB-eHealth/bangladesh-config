@@ -2,24 +2,24 @@
 WITH cte_all_morbidities AS (
 	SELECT
 		am.patient_id,
-		MAX (CASE WHEN am.diagnosis = 'Asthma' THEN 'Yes' ELSE NULL END) AS "Asthma",
-		MAX (CASE WHEN am.diagnosis = 'Cardiovascular disease' THEN 'Yes' ELSE NULL END) AS "Cardiovascular disease",
-		MAX (CASE WHEN am.diagnosis = 'Chronic kidney insufficiency' THEN 'Yes' ELSE NULL END) AS "Chronic kidney insufficiency",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage I' THEN 'Yes' ELSE NULL END) AS "Chronic Kidney Disease, Stage I",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage II (Mild)' THEN 'Yes' ELSE NULL END) AS "Chronic Kidney Disease, Stage II (Mild)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage III (Moderate)' THEN 'Yes' ELSE NULL END) AS "Chronic Kidney Disease, Stage III (Moderate)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage IV (Severe)' THEN 'Yes' ELSE NULL END) AS "Chronic Kidney Disease, Stage IV (Severe)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage V' THEN 'Yes' ELSE NULL END) AS "Chronic Kidney Disease, Stage V",
-		MAX (CASE WHEN am.diagnosis = 'Chronic obstructive pulmonary disease (COPD)' THEN 'Yes' ELSE NULL END) AS "Chronic obstructive pulmonary disease (COPD)",
-		MAX (CASE WHEN am.diagnosis = 'Epilepsy' THEN 'Yes' ELSE NULL END) AS "Epilepsy",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Hepatitis C' THEN 'Yes' ELSE NULL END) AS "Chronic Hepatitis C",
-		MAX (CASE WHEN am.diagnosis = 'Hypertension' THEN 'Yes' ELSE NULL END) AS "Hypertension",
-		MAX (CASE WHEN am.diagnosis = 'Stroke' THEN 'Yes' ELSE NULL END) AS "Stroke",
-		MAX (CASE WHEN am.diagnosis = 'Thyroid disease' THEN 'Yes' ELSE NULL END) AS "Thyroid disease",
-		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 1' THEN 'Yes' ELSE NULL END) AS "Diabetes mellitus, type 1",
-		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 2' THEN 'Yes' ELSE NULL END) AS "Diabetes mellitus, type 2",
-		MAX (CASE WHEN am.diagnosis = 'Cirrhosis and Chronic Liver Disease' THEN 'Yes' ELSE NULL END) AS "Cirrhosis and Chronic Liver Disease",
-		MAX (CASE WHEN am.diagnosis = 'Other pathology' THEN 'Yes' ELSE NULL END) AS "Other pathology"
+		MAX (CASE WHEN am.diagnosis = 'Asthma' THEN '1' ELSE NULL END) AS "Asthma",
+		MAX (CASE WHEN am.diagnosis = 'Cardiovascular disease' THEN '1' ELSE NULL END) AS "Cardiovascular disease",
+		MAX (CASE WHEN am.diagnosis = 'Chronic kidney insufficiency' THEN '1' ELSE NULL END) AS "Chronic kidney insufficiency",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage I' THEN '1' ELSE NULL END) AS "Chronic Kidney Disease, Stage I",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage II (Mild)' THEN '1' ELSE NULL END) AS "Chronic Kidney Disease, Stage II (Mild)",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage III (Moderate)' THEN '1' ELSE NULL END) AS "Chronic Kidney Disease, Stage III (Moderate)",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage IV (Severe)' THEN '1' ELSE NULL END) AS "Chronic Kidney Disease, Stage IV (Severe)",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage V' THEN '1' ELSE NULL END) AS "Chronic Kidney Disease, Stage V",
+		MAX (CASE WHEN am.diagnosis = 'Chronic obstructive pulmonary disease (COPD)' THEN '1' ELSE NULL END) AS "Chronic obstructive pulmonary disease (COPD)",
+		MAX (CASE WHEN am.diagnosis = 'Epilepsy' THEN '1' ELSE NULL END) AS "Epilepsy",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Hepatitis C' THEN '1' ELSE NULL END) AS "Chronic Hepatitis C",
+		MAX (CASE WHEN am.diagnosis = 'Hypertension' THEN '1' ELSE NULL END) AS "Hypertension",
+		MAX (CASE WHEN am.diagnosis = 'Stroke' THEN '1' ELSE NULL END) AS "Stroke",
+		MAX (CASE WHEN am.diagnosis = 'Thyroid disease' THEN '1' ELSE NULL END) AS "Thyroid disease",
+		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 1' THEN '1' ELSE NULL END) AS "Diabetes mellitus, type 1",
+		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 2' THEN '1' ELSE NULL END) AS "Diabetes mellitus, type 2",
+		MAX (CASE WHEN am.diagnosis = 'Cirrhosis and Chronic Liver Disease' THEN '1' ELSE NULL END) AS "Cirrhosis and Chronic Liver Disease",
+		MAX (CASE WHEN am.diagnosis = 'Other pathology' THEN '1' ELSE NULL END) AS "Other pathology"
 	FROM (SELECT
 			DISTINCT ON (patient_id) patient_id,
 			obs_datetime,
@@ -38,7 +38,7 @@ WITH cte_all_morbidities AS (
 		ORDER BY patient_id, obs_datetime DESC) am
 	GROUP BY patient_id)
 SELECT
-	pi."Patient_Identifier" AS "01_emr_id",
+	pi."Patient_Identifier" AS "01_EMR_id",
 	pi.patient_id AS "02_patient_id",
 	pdd.age AS "03_current_age",
 	pdd.age_group AS "04_current_age_group",
@@ -106,19 +106,19 @@ SELECT
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lpv.systolic_blood_pressure > 140 OR lpv.diastolic_blood_pressure > 90) THEN 'No'
 		ELSE null
 	END AS "40_bp_controlled",
-	lhba1c.date_of_sample_collected_for_hba1c AS "41_last_hba1c_date",
-	lhba1c.hba1c AS "42_last_hba1c",
+	lhba1c.date_of_sample_collected_for_hba1c AS "41_last_HbA1c_date",
+	lhba1c.hba1c AS "42_last_HbA1c",
 	CASE 
 		WHEN lhba1c.hba1c <= 6.5 THEN '<=6.5%'
 		WHEN lhba1c.hba1c > 6.5 AND lhba1c.hba1c <= 8 THEN '6.6-8.0%'
 		WHEN lhba1c.hba1c > 8 THEN '>=8.1%'
 		ELSE NULL 
-	END AS "43_last_hba1c_categories",
+	END AS "43_last_HbA1c_categories",
 	CASE
 		WHEN lhba1c.date_of_sample_collected_for_hba1c >= date_trunc('day', now())- INTERVAL '12 month' THEN 'Yes'
 		WHEN lhba1c.date_of_sample_collected_for_hba1c < date_trunc('day', now())- INTERVAL '12 month' THEN 'No'
 		ELSE NULL
-	END AS "44_hba1c_checked_in last_12_months",
+	END AS "44_HbA1c_checked_in last_12_months",
 	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs AS "45_last_fbs_date",
 	lfbs.fasting_blood_sugar_fbs AS "46_last_fbs_date",
 	CASE 
@@ -132,7 +132,7 @@ SELECT
 		WHEN svr.numeric_vl < 1000 THEN 'Yes' 
 		WHEN svr.numeric_vl >= 1000 THEN 'No' 
 		ELSE NULL 
-	END AS "50_svr"
+	END AS "50_SVR12"
 FROM patient_identifier pi
 /*Joins age and gender for each patient*/
 LEFT OUTER JOIN person_details_default pdd 
