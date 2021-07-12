@@ -38,8 +38,8 @@ WITH cte_all_morbidities AS (
 		ORDER BY patient_id, obs_datetime DESC) am
 	GROUP BY patient_id)
 SELECT
-	pi."Patient_Identifier" AS "01_EMR_id",
-	pi.patient_id AS "02_patient_id",
+	pid."Patient_Identifier" AS "01_emr_id",
+	pid.patient_id AS "02_patient_id",
 	pdd.age AS "03_current_age",
 	pdd.age_group AS "04_current_age_group",
 	pdd.gender AS "05_sex", 
@@ -133,13 +133,13 @@ SELECT
 		WHEN svr.numeric_vl >= 1000 THEN 'No' 
 		ELSE NULL 
 	END AS "50_SVR12"
-FROM patient_identifier pi
+FROM patient_identifier pid
 /*Joins age and gender for each patient*/
 LEFT OUTER JOIN person_details_default pdd 
-	ON pi.patient_id = pdd.person_id 
+	ON pid.patient_id = pdd.person_id 
 /*Joins status of patient for each patient*/
 LEFT OUTER JOIN person_attributes pa 
-	ON pi.patient_id = pa.person_id
+	ON pid.patient_id = pa.person_id
 /*Joins last visit location according to login location used for more recent data entry*/
 LEFT OUTER JOIN (
 		SELECT
@@ -147,7 +147,7 @@ LEFT OUTER JOIN (
 			location_name 
 		FROM patient_visit_details_default 
 		ORDER BY patient_id, visit_start_date DESC) lv
-	ON pi.patient_id = lv.patient_id
+	ON pid.patient_id = lv.patient_id
 /*Joins last reported cohort entry date*/
 LEFT OUTER JOIN (
 		SELECT
@@ -156,7 +156,7 @@ LEFT OUTER JOIN (
 		FROM entrance_and_exit
 		WHERE date_of_entry_into_cohort IS NOT NULL 
 		ORDER BY patient_id, obs_datetime desc) led
-	ON pi.patient_id = led.patient_id
+	ON pid.patient_id = led.patient_id
 /*Joins last reported date of cohort exit or date of death (which ever is reported last)*/
 LEFT OUTER JOIN (
 		SELECT
@@ -174,7 +174,7 @@ LEFT OUTER JOIN (
 		FROM entrance_and_exit
 		WHERE date_of_exit_from_cohort IS NOT NULL OR date_of_death IS NOT null
 		ORDER BY patient_id, obs_datetime desc) led2
-	ON pi.patient_id = led2.patient_id
+	ON pid.patient_id = led2.patient_id
 /*Joins last reported exit status (not tied to last reported exit/death date if reported at different times)*/
 LEFT OUTER JOIN (
 		SELECT
@@ -183,7 +183,7 @@ LEFT OUTER JOIN (
 		FROM entrance_and_exit
 		WHERE exit_outcome_of_patient IS NOT null
 		ORDER BY patient_id, obs_datetime desc) es
-	ON pi.patient_id = es.patient_id
+	ON pid.patient_id = es.patient_id
 /*Joins last reported primary diagnosis*/
 LEFT OUTER JOIN (
 		SELECT
@@ -192,10 +192,10 @@ LEFT OUTER JOIN (
 		FROM patient_diagnosis
 		WHERE diagnosis IS NOT NULL 
 		ORDER BY patient_id, obs_datetime desc) lpd
-	ON pi.patient_id = lpd.patient_id
+	ON pid.patient_id = lpd.patient_id
 /*Joins last reported primary diagnois and co-morbidities from pivoted table created in the WITH clause*/
 LEFT OUTER JOIN cte_all_morbidities cam
-	ON pi.patient_id = cam.patient_id
+	ON pid.patient_id = cam.patient_id
 /*Joins last appointment that took place (date, service, status). Excludes appointments scheduled in the future*/
 LEFT OUTER JOIN (
 		SELECT
@@ -206,7 +206,7 @@ LEFT OUTER JOIN (
 		FROM patient_appointment_default
 		WHERE appointment_start_time < now()
 		ORDER BY patient_id, appointment_start_time DESC) lpa
-	ON pi.patient_id = lpa.patient_id
+	ON pid.patient_id = lpa.patient_id
 /*Joins last appointment status from last appointment within the last 3 months from current date that was marked as completed/checkedIn*/
 LEFT OUTER JOIN (
 		SELECT
@@ -217,7 +217,7 @@ LEFT OUTER JOIN (
 		FROM patient_appointment_default
 		WHERE appointment_start_time < now() AND appointment_start_time >= date_trunc('day', now())- INTERVAL '3 month' AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
 		ORDER BY patient_id, appointment_start_time DESC) lpa3
-	ON pi.patient_id = lpa3.patient_id
+	ON pid.patient_id = lpa3.patient_id
 /*Joins last recorded complete blood pressure for all patients*/
 LEFT OUTER JOIN (
 		SELECT
@@ -228,7 +228,7 @@ LEFT OUTER JOIN (
 		FROM patient_vitals
 		WHERE systolic_blood_pressure IS NOT NULL AND diastolic_blood_pressure IS NOT NULL 
 		ORDER BY patient_id, obs_datetime desc) lpv
-	ON pi.patient_id = lpv.patient_id
+	ON pid.patient_id = lpv.patient_id
 /*Joins last checkedIn/completed medical appointment*/
 LEFT OUTER JOIN (
 		SELECT
@@ -241,7 +241,7 @@ LEFT OUTER JOIN (
 			(appointment_status = 'CheckedIn' OR appointment_status = 'Completed') AND 
 			(appointment_service = 'Medical consultation follow-up' OR appointment_service = 'Medical initial consultation')
 		ORDER BY patient_id, appointment_start_time DESC) lma
-	ON pi.patient_id = lma.patient_id
+	ON pid.patient_id = lma.patient_id
 /*Joins last recorded hbA1c lab*/
 LEFT OUTER JOIN (
 		SELECT
@@ -252,7 +252,7 @@ LEFT OUTER JOIN (
 		FROM lab_tests lt 
 		WHERE hba1c IS NOT NULL
 		ORDER BY patient_id, obs_datetime desc) lhba1c
-	ON pi.patient_id = lhba1c.patient_id
+	ON pid.patient_id = lhba1c.patient_id
 /*Joins last recorded fasting blood sugar lab*/
 LEFT OUTER JOIN (
 		SELECT
@@ -263,7 +263,7 @@ LEFT OUTER JOIN (
 		FROM lab_tests lt 
 		WHERE hba1c IS NOT NULL OR fasting_blood_sugar_fbs IS NOT NULL
 		ORDER BY patient_id, obs_datetime desc) lfbs
-	ON pi.patient_id = lfbs.patient_id
+	ON pid.patient_id = lfbs.patient_id
 /*Joins last recorded DAA initiation date*/
 LEFT OUTER JOIN (
 		SELECT
@@ -273,7 +273,7 @@ LEFT OUTER JOIN (
 		FROM hepatitis_c hc 
 		WHERE date_of_daa_initiation IS NOT NULL
 		ORDER BY patient_id, obs_datetime DESC) daai
-	ON pi.patient_id = daai.patient_id
+	ON pid.patient_id = daai.patient_id
 /*Joins last recorded DAA termination date*/
 LEFT OUTER JOIN (
 		SELECT
@@ -283,7 +283,7 @@ LEFT OUTER JOIN (
 		FROM hepatitis_c hc 
 		WHERE date_of_daa_termination IS NOT NULL
 		ORDER BY patient_id, obs_datetime DESC) daat
-	ON pi.patient_id = daat.patient_id
+	ON pid.patient_id = daat.patient_id
 /*Joins numeric viral loads reported 12-15 weeks after last reported DAA termination date. Only includes cases with DAA termination date, vl sample date and numeric vl result*/
 LEFT OUTER JOIN (
 		SELECT
@@ -310,4 +310,4 @@ LEFT OUTER JOIN (
 			nvl.date_of_sample_collected_for_hcv_viral_load >= (date_trunc('day', daat.date_of_daa_termination)+ INTERVAL '12 week') AND 
 			nvl.date_of_sample_collected_for_hcv_viral_load < (date_trunc('day', daat.date_of_daa_termination)+ INTERVAL '15 week')
 		ORDER BY nvl.patient_id, nvl.obs_datetime DESC) svr
-	ON pi.patient_id = svr.patient_id
+	ON pid.patient_id = svr.patient_id
