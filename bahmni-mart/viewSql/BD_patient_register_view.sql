@@ -75,7 +75,7 @@ SELECT
 	END AS "17_inactive",
 	lpd.diagnosis AS "18_primary_diagnosis",
 	cam."Asthma" AS "19_asthma",
-	cam."Cardiovascular disease" AS "20_cardiovasular_disease",
+	cam."Cardiovascular disease" AS "20_cardiovascular_disease",
 	cam."Chronic kidney insufficiency" AS "21_chronic_kidney_insufficiency",
 	cam."Chronic Kidney Disease, Stage I" AS "22_chronic_kidney_disease_stage_1",
 	cam."Chronic Kidney Disease, Stage II (Mild)" AS "23_chronic_kidney_disease_stage_2",
