@@ -38,7 +38,7 @@ WITH cte_all_morbidities AS (
 		ORDER BY patient_id, obs_datetime DESC) am
 	GROUP BY patient_id)
 SELECT
-	pid."Patient_Identifier" AS "01_EMR_id",
+	pid."Patient_Identifier" AS "01_emr_id",
 	pid.patient_id AS "02_patient_id",
 	pdd.age AS "03_current_age",
 	pdd.age_group AS "04_current_age_group",
@@ -61,36 +61,37 @@ SELECT
 		WHEN led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NOT NULL THEN NULL
 		ELSE (DATE_PART('day',(now()::timestamp)-(led.date_of_entry_into_cohort::timestamp)))/365*12
 	END)::NUMERIC,1) AS "12_length_of_follow_(months)",
-	lpd.diagnosis AS "13_primary_diagnosis",
-	cam."Asthma" AS "14_asthma",
-	cam."Cardiovascular disease" AS "15_cardiovasular_disease",
-	cam."Chronic kidney insufficiency" AS "16_chronic_kidney_insufficiency",
-	cam."Chronic Kidney Disease, Stage I" AS "17_chronic_kidney_disease_stage_I",
-	cam."Chronic Kidney Disease, Stage II (Mild)" AS "18_chronic_kidney_disease_stage_II",
-	cam."Chronic Kidney Disease, Stage III (Moderate)" AS "19_chronic_kidney_disease_stage_III",
-	cam."Chronic Kidney Disease, Stage IV (Severe)" AS "20_chronic_kidney_disease_stage_IV",
-	cam."Chronic Kidney Disease, Stage V" AS "21_chronic_kidney_disease_stage_V",
-	cam."Chronic obstructive pulmonary disease (COPD)" AS "22_COPD",
-	cam."Epilepsy" AS "23_epilepsy",
-	cam."Chronic Hepatitis C" AS "24_chronic_hepatitis_C",
-	cam."Hypertension" AS "25_hypertension",
-	cam."Stroke" AS "26_stroke",
-	cam."Thyroid disease" AS "27_thyroid_disease",
-	cam."Diabetes mellitus, type 1" AS "28_diabetes_type_1",
-	cam."Diabetes mellitus, type 2" AS "29_diabetes_type_2",
-	cam."Cirrhosis and Chronic Liver Disease" AS "30_cirrhosis_chronic_liver_disease",
-	cam."Other pathology" AS "31_other_pathology",
-	lpa.appointment_start_time::date AS "32_last_appointment_date",
-	lpa.appointment_service AS "33_last_appointment_service",
-	lpa.appointment_status AS "34_last_appointment_status",
+	lpa.appointment_start_time::date AS "13_last_appointment_date",
+	lpa.appointment_service AS "14_last_appointment_service",
+	lpa.appointment_status AS "15_last_appointment_status",
 	CASE
 		WHEN lpa.appointment_status = 'Missed' THEN (DATE_PART('day',(now())-(lpa.appointment_start_time::timestamp)))
 		ELSE NULL 
-	END AS "35_days_since_last_missed_appointment",
+	END AS "16_days_since_last_missed_appointment",
 	CASE
 		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND lpa3.appointment_status IS NULL THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND lpa3.appointment_status IS NOT NULL THEN 'No'
 		ELSE NULL
-	END AS "36_inactive",
+	END AS "17_inactive",
+	lpd.diagnosis AS "18_primary_diagnosis",
+	cam."Asthma" AS "19_asthma",
+	cam."Cardiovascular disease" AS "20_cardiovasular_disease",
+	cam."Chronic kidney insufficiency" AS "21_chronic_kidney_insufficiency",
+	cam."Chronic Kidney Disease, Stage I" AS "22_chronic_kidney_disease_stage_1",
+	cam."Chronic Kidney Disease, Stage II (Mild)" AS "23_chronic_kidney_disease_stage_2",
+	cam."Chronic Kidney Disease, Stage III (Moderate)" AS "24_chronic_kidney_disease_stage_3",
+	cam."Chronic Kidney Disease, Stage IV (Severe)" AS "25_chronic_kidney_disease_stage_4",
+	cam."Chronic Kidney Disease, Stage V" AS "26_chronic_kidney_disease_stage_5",
+	cam."Chronic obstructive pulmonary disease (COPD)" AS "27_copd",
+	cam."Epilepsy" AS "28_epilepsy",
+	cam."Chronic Hepatitis C" AS "29_chronic_hepatitis_c",
+	cam."Hypertension" AS "30_hypertension",
+	cam."Stroke" AS "31_stroke",
+	cam."Thyroid disease" AS "32_thyroid_disease",
+	cam."Diabetes mellitus, type 1" AS "33_diabetes_type_1",
+	cam."Diabetes mellitus, type 2" AS "34_diabetes_type_2",
+	cam."Cirrhosis and Chronic Liver Disease" AS "35_cirrhosis_chronic_liver_disease",
+	cam."Other pathology" AS "36_other_pathology",
 	lpv.date_recorded::date AS "37_last_bp_date",
 	CASE
 		WHEN lpv.systolic_blood_pressure IS NOT NULL THEN concat(lpv.systolic_blood_pressure,'/',lpv.diastolic_blood_pressure) 
