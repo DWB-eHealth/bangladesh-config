@@ -8,7 +8,7 @@ SELECT
 	pap.appointment_start_time AS "07_appointment_start_time",
 	pap.appointment_end_time AS "08_appointment_end_time",
 	pap.appointment_status AS "09_appointment_status",
-	pi."Patient_Identifier" AS "10_EMR_id",
+	pi."Patient_Identifier" AS "10_emr_id",
 	pdd.person_id AS "11_patient_id",
 	pdd.gender AS "12_sex",
 	EXTRACT(YEAR FROM (SELECT age( pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')))) AS "13_age_at_appointment",
