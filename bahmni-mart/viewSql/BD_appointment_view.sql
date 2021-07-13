@@ -1,5 +1,5 @@
 SELECT
-	pap.appointment_id AS "01_appointment_id",	
+	DISTINCT ON (pap.appointment_id) pap.appointment_id AS "01_appointment_id",	
 	pap.appointment_service AS "02_appointment_service",
 	pap.appointment_service_duration AS "03_appointment_service_duration",
 	pap.appointment_location AS "04_appointment_location",
