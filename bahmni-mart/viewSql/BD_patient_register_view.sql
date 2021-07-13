@@ -107,19 +107,19 @@ SELECT
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lpv.systolic_blood_pressure > 140 OR lpv.diastolic_blood_pressure > 90) THEN 'No'
 		ELSE null
 	END AS "40_bp_controlled",
-	lhba1c.date_of_sample_collected_for_hba1c::date AS "41_last_hbA1c_date",
-	lhba1c.hba1c AS "42_last_hbA1c",
+	lhba1c.date_of_sample_collected_for_hba1c::date AS "41_last_hba1c_date",
+	lhba1c.hba1c AS "42_last_hba1c",
 	CASE 
 		WHEN lhba1c.hba1c <= 6.5 THEN '<=6.5%'
 		WHEN lhba1c.hba1c > 6.5 AND lhba1c.hba1c <= 8 THEN '6.6-8.0%'
 		WHEN lhba1c.hba1c > 8 THEN '>=8.1%'
 		ELSE NULL 
-	END AS "43_last_hbA1c_categories",
+	END AS "43_last_hba1c_categories",
 	CASE
 		WHEN lhba1c.date_of_sample_collected_for_hba1c >= date_trunc('day', now())- INTERVAL '12 month' THEN 'Yes'
 		WHEN lhba1c.date_of_sample_collected_for_hba1c < date_trunc('day', now())- INTERVAL '12 month' THEN 'No'
 		ELSE NULL
-	END AS "44_hbA1c_checked_in_last_12_months",
+	END AS "44_hba1c_checked_in_last_12_months",
 	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "45_last_fbs_date",
 	lfbs.fasting_blood_sugar_fbs AS "46_last_fbs",
 	CASE 
