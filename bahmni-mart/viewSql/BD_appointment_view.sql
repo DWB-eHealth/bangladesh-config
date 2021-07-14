@@ -10,9 +10,9 @@ SELECT
 	pap.appointment_status AS "09_appointment_status",
 	pid."Patient_Identifier" AS "10_emr_id",
 	pdd.person_id::text AS "11_patient_id",
-	pdd.gender AS "12_sex",
-	EXTRACT(YEAR FROM (SELECT age( pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy'))))::int AS "13_age_at_appointment",
-	age_group(pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')) As "14_age_group_at_appointment",
+	EXTRACT(YEAR FROM (SELECT age( pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy'))))::int AS "12_age_at_appointment",
+	age_group(pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')) As "13_age_group_at_appointment",
+	pdd.gender AS "14_sex",
 	pa."Status_of_Patient" AS "15_status_of_patient",
 	lpd.diagnosis AS "16_primary_diagnosis"
 FROM patient_appointment_default pap 
