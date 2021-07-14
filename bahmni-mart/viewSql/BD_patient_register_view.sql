@@ -90,50 +90,55 @@ SELECT
 	cam."Thyroid disease" AS "32_thyroid_disease",
 	cam."Diabetes mellitus, type 1" AS "33_diabetes_type_1",
 	cam."Diabetes mellitus, type 2" AS "34_diabetes_type_2",
-	cam."Cirrhosis and Chronic Liver Disease" AS "35_cirrhosis_chronic_liver_disease",
-	cam."Other pathology" AS "36_other_pathology",
-	lpv.date_recorded::date AS "37_last_bp_date",
+	CASE 
+		WHEN cam."Diabetes mellitus, type 1" IS NOT NULL THEN '1'
+		WHEN cam."Diabetes mellitus, type 2" IS NOT NULL THEN '1' 
+		ELSE NULL 
+	END AS "35_diabetes_any_type",
+	cam."Cirrhosis and Chronic Liver Disease" AS "36_cirrhosis_chronic_liver_disease",
+	cam."Other pathology" AS "37_other_pathology",
+	lpv.date_recorded::date AS "38_last_bp_date",
 	CASE
 		WHEN lpv.systolic_blood_pressure IS NOT NULL THEN concat(lpv.systolic_blood_pressure,'/',lpv.diastolic_blood_pressure) 
 		ELSE NULL 
-	END AS "38_last_bp",
+	END AS "39_last_bp",
 	CASE
 		WHEN lma.appointment_start_time::date = lpv.date_recorded THEN 'Yes'
 		WHEN lma.appointment_start_time::date <> lpv.date_recorded THEN 'No'
-		ELSE NULL
-	END AS "39_bp_checked_at_last_appointment",
+		ELSE 'No'
+	END AS "40_bp_checked_at_last_appointment",
 	CASE 
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND lpv.systolic_blood_pressure <= 140 OR lpv.diastolic_blood_pressure <= 90 THEN 'Yes'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lpv.systolic_blood_pressure > 140 OR lpv.diastolic_blood_pressure > 90) THEN 'No'
-		ELSE null
-	END AS "40_bp_controlled",
-	lhba1c.date_of_sample_collected_for_hba1c::date AS "41_last_hba1c_date",
-	lhba1c.hba1c AS "42_last_hba1c",
+		ELSE NULL 
+	END AS "41_bp_controlled",
+	lhba1c.date_of_sample_collected_for_hba1c::date AS "42_last_hba1c_date",
+	lhba1c.hba1c AS "43_last_hba1c",
 	CASE 
 		WHEN lhba1c.hba1c <= 6.5 THEN '<=6.5%'
 		WHEN lhba1c.hba1c > 6.5 AND lhba1c.hba1c <= 8 THEN '6.6-8.0%'
 		WHEN lhba1c.hba1c > 8 THEN '>=8.1%'
 		ELSE NULL 
-	END AS "43_last_hba1c_categories",
+	END AS "44_last_hba1c_categories",
 	CASE
 		WHEN lhba1c.date_of_sample_collected_for_hba1c >= date_trunc('day', now())- INTERVAL '12 month' THEN 'Yes'
 		WHEN lhba1c.date_of_sample_collected_for_hba1c < date_trunc('day', now())- INTERVAL '12 month' THEN 'No'
-		ELSE NULL
-	END AS "44_hba1c_checked_in_last_12_months",
-	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "45_last_fbs_date",
-	lfbs.fasting_blood_sugar_fbs AS "46_last_fbs",
+		ELSE 'No'
+	END AS "45_hba1c_checked_in_last_12_months",
+	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "46_last_fbs_date",
+	lfbs.fasting_blood_sugar_fbs AS "47_last_fbs",
 	CASE 
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c < 8 OR lfbs.fasting_blood_sugar_fbs < 150) THEN 'Yes'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c >= 8 OR lfbs.fasting_blood_sugar_fbs >= 150) THEN 'No'
-		ELSE null
-	END AS "47_diabetes_controlled", 
-	daai.date_of_daa_initiation::date AS "48_daa_initiation_date", 
-	daat.date_of_daa_termination::date AS "49_daa_termination_date",
+		ELSE NULL
+	END AS "48_diabetes_controlled", 
+	daai.date_of_daa_initiation::date AS "49_daa_initiation_date", 
+	daat.date_of_daa_termination::date AS "50_daa_termination_date",
 	CASE 
 		WHEN svr.numeric_vl < 1000 THEN 'Yes' 
 		WHEN svr.numeric_vl >= 1000 THEN 'No' 
 		ELSE NULL 
-	END AS "50_svr12"
+	END AS "51_svr12"
 FROM patient_identifier pid
 /*Joins age and gender for each patient*/
 LEFT OUTER JOIN person_details_default pdd 
