@@ -137,6 +137,7 @@ SELECT
 	CASE 
 		WHEN svr.numeric_vl < 1000 THEN 'Yes' 
 		WHEN svr.numeric_vl >= 1000 THEN 'No' 
+		WHEN svr.numeric_vl IS NULL AND daat.date_of_daa_termination < date_trunc('day', now())- INTERVAL '12 week' THEN 'No VL Result'
 		ELSE NULL 
 	END AS "51_svr12"
 FROM patient_identifier pid
