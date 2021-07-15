@@ -286,11 +286,11 @@
     },
     {
       "name": "BD_patient_register_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/BD_patient_register_view.sql"
+      "sourceFilePath": "file:/home/bahmni/viewSql/bd_patient_register_view.sql"
     },
         {
       "name": "BD_appointment_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/BD_appointment_view.sql"
+      "sourceFilePath": "file:/home/bahmni/viewSql/bd_appointment_view.sql"
     }
   ]
 }
