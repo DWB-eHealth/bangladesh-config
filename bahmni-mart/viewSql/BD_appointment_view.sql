@@ -2,7 +2,10 @@ SELECT
 	DISTINCT ON (pap.appointment_id) pap.appointment_id::text AS "01_appointment_id",	
 	pap.appointment_service AS "02_appointment_service",
 	pap.appointment_service_duration AS "03_appointment_service_duration",
-	pap.appointment_location AS "04_appointment_location",
+	CASE 
+		WHEN pap.appointment_location IS NOT NULL THEN pap.appointment_location
+		ELSE 'not recorded'
+	END AS "04_appointment_location",
 	pap.appointment_provider AS "05_appointment_provider",
 	pap.appointment_kind AS "06_appointment_kind",
 	pap.appointment_start_time AS "07_appointment_start_time",
@@ -14,7 +17,10 @@ SELECT
 	age_group(pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')) As "13_age_group_at_appointment",
 	pdd.gender AS "14_sex",
 	pa."Status_of_Patient" AS "15_status_of_patient",
-	lpd.diagnosis AS "16_primary_diagnosis"
+	CASE 
+		WHEN lpd.diagnosis IS NOT NULL THEN lpd.diagnosis
+		ELSE 'not recorded'
+	END AS "16_primary_diagnosis"
 FROM patient_appointment_default pap 
 LEFT JOIN person_attributes pa 
 	ON pa.person_id = pap.patient_id
