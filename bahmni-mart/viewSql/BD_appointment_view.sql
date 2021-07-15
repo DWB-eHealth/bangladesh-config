@@ -20,7 +20,11 @@ SELECT
 	CASE 
 		WHEN lpd.diagnosis IS NOT NULL THEN lpd.diagnosis
 		ELSE 'not recorded'
-	END AS "16_primary_diagnosis"
+	END AS "16_primary_diagnosis",
+	CASE
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL THEN 'Yes'
+		ELSE NULL 
+	END AS "17_current_cohort"
 FROM patient_appointment_default pap 
 LEFT JOIN person_attributes pa 
 	ON pa.person_id = pap.patient_id
@@ -36,4 +40,37 @@ LEFT OUTER JOIN (
 	ON lpd.patient_id = pap.patient_id
 LEFT OUTER JOIN patient_identifier pid
 	ON pid.patient_id = pap.patient_id
+LEFT OUTER JOIN (
+		SELECT
+			DISTINCT ON (patient_id) patient_id, 
+			date_of_entry_into_cohort 
+		FROM entrance_and_exit
+		WHERE date_of_entry_into_cohort IS NOT NULL 
+		ORDER BY patient_id, obs_datetime desc) led
+	ON led.patient_id = pap.patient_id
+LEFT OUTER JOIN (
+		SELECT
+			DISTINCT ON (patient_id) patient_id,
+			CASE 
+				WHEN date_of_exit_from_cohort IS NOT NULL AND date_of_death IS NULL THEN date_of_exit_from_cohort
+				WHEN date_of_exit_from_cohort IS NULL AND date_of_death IS NOT NULL THEN date_of_death 
+				WHEN date_of_exit_from_cohort < date_of_death THEN date_of_exit_from_cohort 
+				ELSE date_of_death 
+			END AS "cohort_exit_date",
+			CASE 
+				WHEN date_of_death IS NOT NULL THEN TRUE
+				ELSE NULL 
+			END AS "deceased"
+		FROM entrance_and_exit
+		WHERE date_of_exit_from_cohort IS NOT NULL OR date_of_death IS NOT null
+		ORDER BY patient_id, obs_datetime desc) led2
+	ON led2.patient_id = pap.patient_id
+LEFT OUTER JOIN (
+		SELECT
+			DISTINCT ON (patient_id) patient_id,
+			exit_outcome_of_patient 
+		FROM entrance_and_exit
+		WHERE exit_outcome_of_patient IS NOT null
+		ORDER BY patient_id, obs_datetime desc) es
+	ON es.patient_id = pap.patient_id
 ORDER BY pap.appointment_id
