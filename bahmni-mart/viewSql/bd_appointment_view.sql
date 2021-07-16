@@ -11,7 +11,7 @@ SELECT
 	pap.appointment_start_time AS "07_appointment_start_time",
 	pap.appointment_end_time AS "08_appointment_end_time",
 	pap.appointment_status AS "09_appointment_status",
-	pid."Patient_Identifier" AS "10_emr_id",
+	pid."Patient_Identifier" AS "10_patient_identifier",
 	pdd.person_id::text AS "11_patient_id",
 	EXTRACT(YEAR FROM (SELECT age( pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy'))))::int AS "12_age_at_appointment",
 	age_group(pap.appointment_start_time, TO_DATE(CONCAT('01-01-', pdd.birthyear), 'dd-MM-yyyy')) As "13_age_group_at_appointment",
