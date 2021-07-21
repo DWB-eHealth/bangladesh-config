@@ -205,90 +205,10 @@
       "sourceFilePath": "classpath:viewSql/patientAppointmentView.sql"
     },
     {
-      "name": "patient_summary_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/patient_summary_view.sql"
-    },
-    {
-      "name": "patient_summary_with_appointments_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/patient_summary_with_appointments_view.sql"
-    },
-    {
-      "name": "last_comorbidities_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/last_comorbidities_per_patient_id_view.sql"
-    },
-    {
-      "name": "first_visit_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/first_visit_per_patient_id_view.sql"
-    },
-    {
-      "name": "last_visit_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/last_visit_per_patient_id_view.sql"
-    },
-    {
-      "name": "diagnosis_list_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/diagnosis_list_view.sql"
-    },
-    {
-      "name": "last_diagnosis_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/last_diagnosis_per_patient_id_view.sql"
-    },
-    {
-      "name": "last_date_of_exit_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/last_date_of_exit_per_patient_id_view.sql"
-    },
-    {
-      "name": "patient_summary_with_diagnosis_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/patient_summary_with_diagnosis_view.sql"
-    },
-    {
-      "name": "time_in_cohort_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/time_in_cohort_view.sql"
-    },
-    {
-      "name": "hba1c_fbs_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/hba1c_fbs_view.sql"
-    },
-    {
-      "name": "hba1c_ranges_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/hba1c_ranges_view.sql"
-    },
-    {
-      "name": "blood_pressure_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_view.sql"
-    },
-    {
-      "name": "first_date_of_daa_initiation_per_patient_id_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/first_date_of_daa_initiation_per_patient_id_view.sql"
-    },
-    {
-      "name": "vl_results_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/vl_results_view.sql"
-    },
-    {
-      "name": "last_diagnosis_and_comorbid_conditions_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/last_diagnosis_and_comorbid_conditions_view.sql"
-    },
-    {
-      "name": "blood_pressure_recorded_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/blood_pressure_recorded_view.sql"
-    },
-    {
-      "name": "drug_refill_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/drug_refill_view.sql"
-    },
-    {
-      "name": "svr12_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/svr12_view.sql"
-    },
-    {
-      "name": "patient_register_view",
-      "sourceFilePath": "file:/home/bahmni/viewSql/patient_register_view.sql"
-    },
-    {
       "name": "BD_patient_register_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/bd_patient_register_view.sql"
     },
-        {
+    {
       "name": "BD_appointment_view",
       "sourceFilePath": "file:/home/bahmni/viewSql/bd_appointment_view.sql"
     }
