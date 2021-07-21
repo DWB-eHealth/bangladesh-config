@@ -4,7 +4,7 @@ SELECT
 	pap.appointment_service_duration AS "03_appointment_service_duration",
 	CASE 
 		WHEN pap.appointment_location IS NOT NULL THEN pap.appointment_location
-		ELSE 'not recorded'
+		ELSE 'Not recorded'
 	END AS "04_appointment_location",
 	pap.appointment_provider AS "05_appointment_provider",
 	pap.appointment_kind AS "06_appointment_kind",
@@ -19,7 +19,7 @@ SELECT
 	pa."Status_of_Patient" AS "15_status_of_patient",
 	CASE 
 		WHEN lpd.diagnosis IS NOT NULL THEN lpd.diagnosis
-		ELSE 'Not Recorded'
+		ELSE 'Not recorded'
 	END AS "16_primary_diagnosis",
 	CASE
 		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL THEN 'Yes'
