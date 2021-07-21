@@ -54,7 +54,7 @@ SELECT
 	CASE 
 		WHEN es.exit_outcome_of_patient IS NOT NULL THEN es.exit_outcome_of_patient 
 		WHEN es.exit_outcome_of_patient IS NULL AND led2.deceased IS NOT NULL THEN 'Deceased'
-		WHEN es.exit_outcome_of_patient IS NULL AND led2.deceased IS NULL AND led2.cohort_exit_date IS NOT NULL THEN 'Not Recorded'
+		WHEN es.exit_outcome_of_patient IS NULL AND led2.deceased IS NULL AND led2.cohort_exit_date IS NOT NULL THEN 'Not recorded'
 		ELSE NULL 
 	END AS "11_cohort_exit_status",
 	ROUND((CASE 
