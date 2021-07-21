@@ -19,7 +19,7 @@ SELECT
 	pa."Status_of_Patient" AS "15_status_of_patient",
 	CASE 
 		WHEN lpd.diagnosis IS NOT NULL THEN lpd.diagnosis
-		ELSE 'not recorded'
+		ELSE 'Not Recorded'
 	END AS "16_primary_diagnosis",
 	CASE
 		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL THEN 'Yes'
