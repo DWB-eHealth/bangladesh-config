@@ -152,11 +152,11 @@
       },
       "conceptReferenceSource": "",
       "ignoreAllFreeTextConcepts": true,
-      "includeFreeTextConceptNames": [
-        "hcv_viral_load"
-      ]
       "columnsToIgnore": [
         "Image"
+      ],
+      "includeFreeTextConceptNames": [
+        "hcv_viral_load"
       ]
     },
     {
