@@ -134,8 +134,11 @@ SELECT
 	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "47_last_fbs_date",
 	lfbs.fasting_blood_sugar_fbs AS "48_last_fbs",
 	CASE 
-		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c < 8 OR lfbs.fasting_blood_sugar_fbs < 150) THEN 'Yes'
-		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lhba1c.hba1c >= 8 OR lfbs.fasting_blood_sugar_fbs >= 150) THEN 'No'
+		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NOT NULL AND ldcc.hba1c < 8  THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NOT NULL AND ldcc.hba1c >= 8  THEN 'No'
+		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NULL AND ldcc.fasting_blood_sugar_fbs < 150  THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NULL AND ldcc.fasting_blood_sugar_fbs >= 150  THEN 'No'
+		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.patient_id IS NULL THEN 'No results recorded'
 		ELSE NULL
 	END AS "49_diabetes_controlled", 
 	daai.date_of_daa_initiation::date AS "50_daa_initiation_date", 
@@ -285,9 +288,22 @@ LEFT OUTER JOIN (
 			date_of_sample_collected_for_fasting_blood_sugar_fbs,
 			fasting_blood_sugar_fbs 
 		FROM lab_tests lt 
-		WHERE hba1c IS NOT NULL OR fasting_blood_sugar_fbs IS NOT NULL
+		WHERE fasting_blood_sugar_fbs IS NOT NULL
 		ORDER BY patient_id, obs_datetime desc) lfbs
 	ON pid.patient_id = lfbs.patient_id
+/*Joins last recorded HbA1c or fasting blood sugar lab*/
+LEFT OUTER JOIN (
+		SELECT
+			DISTINCT ON (patient_id) patient_id,
+			obs_datetime,
+			date_of_sample_collected_for_hba1c,
+			hba1c,
+			date_of_sample_collected_for_fasting_blood_sugar_fbs,
+			fasting_blood_sugar_fbs 
+		FROM lab_tests lt 
+		WHERE hba1c IS NOT NULL OR fasting_blood_sugar_fbs IS NOT NULL
+		ORDER BY patient_id, obs_datetime desc) ldcc
+	ON pid.patient_id = ldcc.patient_id
 /*Joins last recorded DAA initiation date*/
 LEFT OUTER JOIN (
 		SELECT
