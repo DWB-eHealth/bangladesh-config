@@ -16,8 +16,9 @@
       "chunkSizeToRead": "500",
       "groupedJobConfigs": [
         {
-          "tableName": "appointment_service_default",
+          "tableName": "patient_appointment_default",
           "columnsToIgnore": [
+            "comments"
           ]
         }
       ]
@@ -150,7 +151,10 @@
         ]
       },
       "conceptReferenceSource": "",
-      "ignoreAllFreeTextConcepts": false,
+      "ignoreAllFreeTextConcepts": true,
+      "includeFreeTextConceptNames": [
+        "hcv_viral_load"
+      ]
       "columnsToIgnore": [
         "Image"
       ]
