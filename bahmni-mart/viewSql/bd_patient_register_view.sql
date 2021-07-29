@@ -72,6 +72,7 @@ SELECT
 	END AS "16_days_since_last_missed_appointment",
 	CASE
 		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND 
+			led.date_of_entry_into_cohort < (date_trunc('day', now()) - INTERVAL '90 day') AND 
 			(lpa.appointment_service <> 'CheckedIn' OR lpa.appointment_service <> 'Completed') AND
 			(aa.appointment_status IS NULL OR aa.appointment_start_time < (date_trunc('day', lpa.appointment_start_time)- INTERVAL '90 day')) THEN 'Yes'
 		ELSE NULL
