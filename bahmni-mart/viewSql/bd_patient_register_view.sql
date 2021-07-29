@@ -2,24 +2,25 @@
 WITH cte_all_morbidities AS (
 	SELECT
 		am.patient_id,
-		MAX (CASE WHEN am.diagnosis = 'Asthma' THEN '1' ELSE NULL END)::int AS "Asthma",
-		MAX (CASE WHEN am.diagnosis = 'Cardiovascular disease' THEN '1' ELSE NULL END)::int AS "Cardiovascular disease",
-		MAX (CASE WHEN am.diagnosis = 'Chronic kidney insufficiency' THEN '1' ELSE NULL END)::int AS "Chronic kidney insufficiency",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage I' THEN '1' ELSE NULL END)::int AS "Chronic Kidney Disease, Stage I",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage II (Mild)' THEN '1' ELSE NULL END)::int AS "Chronic Kidney Disease, Stage II (Mild)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage III (Moderate)' THEN '1' ELSE NULL END)::int AS "Chronic Kidney Disease, Stage III (Moderate)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage IV (Severe)' THEN '1' ELSE NULL END)::int AS "Chronic Kidney Disease, Stage IV (Severe)",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage V' THEN '1' ELSE NULL END)::int AS "Chronic Kidney Disease, Stage V",
-		MAX (CASE WHEN am.diagnosis = 'Chronic obstructive pulmonary disease (COPD)' THEN '1' ELSE NULL END)::int AS "Chronic obstructive pulmonary disease (COPD)",
-		MAX (CASE WHEN am.diagnosis = 'Epilepsy' THEN '1' ELSE NULL END)::int AS "Epilepsy",
-		MAX (CASE WHEN am.diagnosis = 'Chronic Hepatitis C' THEN '1' ELSE NULL END)::int AS "Chronic Hepatitis C",
-		MAX (CASE WHEN am.diagnosis = 'Hypertension' THEN '1' ELSE NULL END)::int AS "Hypertension",
-		MAX (CASE WHEN am.diagnosis = 'Stroke' THEN '1' ELSE NULL END)::int AS "Stroke",
-		MAX (CASE WHEN am.diagnosis = 'Thyroid disease' THEN '1' ELSE NULL END)::int AS "Thyroid disease",
-		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 1' THEN '1' ELSE NULL END)::int AS "Diabetes mellitus, type 1",
-		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 2' THEN '1' ELSE NULL END)::int AS "Diabetes mellitus, type 2",
-		MAX (CASE WHEN am.diagnosis = 'Cirrhosis and Chronic Liver Disease' THEN '1' ELSE NULL END)::int AS "Cirrhosis and Chronic Liver Disease",
-		MAX (CASE WHEN am.diagnosis = 'Other pathology' THEN '1' ELSE NULL END)::int AS "Other pathology"
+		MAX (CASE WHEN am.diagnosis = 'Asthma' THEN '1' ELSE NULL END)::int AS "asthma",
+		MAX (CASE WHEN am.diagnosis = 'Cardiovascular disease' THEN '1' ELSE NULL END)::int AS "cardiovascular_disease",
+		MAX (CASE WHEN am.diagnosis = 'Chronic kidney insufficiency' THEN '1' ELSE NULL END)::int AS "chronic_kidney_insufficiency",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage I' THEN '1' ELSE NULL END)::int AS "chronic_kidney_disease_stage_1",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage II (Mild)' THEN '1' ELSE NULL END)::int AS "chronic_kidney_disease_stage_2",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage III (Moderate)' THEN '1' ELSE NULL END)::int AS "chronic_kidney_disease_stage_3",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage IV (Severe)' THEN '1' ELSE NULL END)::int AS "chronic_kidney_disease_stage_4",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Kidney Disease, Stage V' THEN '1' ELSE NULL END)::int AS "chronic_kidney_disease_stage_5",
+		MAX (CASE WHEN am.diagnosis = 'Chronic obstructive pulmonary disease (COPD)' THEN '1' ELSE NULL END)::int AS "copd",
+		MAX (CASE WHEN am.diagnosis = 'Epilepsy' THEN '1' ELSE NULL END)::int AS "epilepsy",
+		MAX (CASE WHEN am.diagnosis = 'Chronic Hepatitis C' THEN '1' ELSE NULL END)::int AS "chronic_hepatitis_c",
+		MAX (CASE WHEN am.diagnosis = 'Hypertension' THEN '1' ELSE NULL END)::int AS "hypertension",
+		MAX (CASE WHEN am.diagnosis = 'Stroke' THEN '1' ELSE NULL END)::int AS "stroke",
+		MAX (CASE WHEN am.diagnosis = 'Thyroid disease' THEN '1' ELSE NULL END)::int AS "thyroid_disease",
+		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 1' THEN '1' ELSE NULL END)::int AS "diabetes_mellitus_type_1",
+		MAX (CASE WHEN am.diagnosis = 'Diabetes mellitus, type 2' THEN '1' ELSE NULL END)::int AS "diabetes_mellitus_type_2",
+		MAX (CASE WHEN am.diagnosis = 'Cirrhosis and Chronic Liver Disease' THEN '1' ELSE NULL END)::int AS "cirrhosis_and_chronic_liver_disease",
+		MAX (CASE WHEN am.diagnosis = 'Other pathology' THEN '1' ELSE NULL END)::int AS "other_pathology",
+		count(DISTINCT am.diagnosis) AS "count_diagnosis"
 	FROM (SELECT
 			DISTINCT ON (patient_id) patient_id,
 			obs_datetime,
@@ -66,73 +67,79 @@ SELECT
 	lpa.appointment_service AS "14_last_appointment_service",
 	lpa.appointment_status AS "15_last_appointment_status",
 	CASE
-		WHEN lpa.appointment_status = 'Missed' THEN (DATE_PART('day',(now())-(lpa.appointment_start_time::timestamp)))::int
+		WHEN (lpa.appointment_service <> 'CheckedIn' OR lpa.appointment_service <> 'Completed') THEN (DATE_PART('day',(now())-(lpa.appointment_start_time::timestamp)))::int
 		ELSE NULL 
 	END AS "16_days_since_last_missed_appointment",
 	CASE
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND (led2.cohort_exit_date IS NULL OR led2.deceased IS NULL OR es.exit_outcome_of_patient IS NULL) AND lpa3.appointment_status IS NULL THEN 'Yes'
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND (led2.cohort_exit_date IS NULL OR led2.deceased IS NULL OR es.exit_outcome_of_patient IS NULL) AND lpa3.appointment_status IS NOT NULL THEN 'No'
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND 
+			(lpa.appointment_service <> 'CheckedIn' OR lpa.appointment_service <> 'Completed') AND
+			(aa.appointment_status IS NULL OR aa.appointment_start_time < (date_trunc('day', lpa.appointment_start_time)- INTERVAL '90 day')) THEN 'Yes'
 		ELSE NULL
 	END AS "17_inactive",
-		CASE
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND (led2.cohort_exit_date IS NULL OR led2.deceased IS NULL OR es.exit_outcome_of_patient IS NULL) AND lpa12.appointment_status IS NULL THEN 'Yes'
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND (led2.cohort_exit_date IS NULL OR led2.deceased IS NULL OR es.exit_outcome_of_patient IS NULL) AND lpa12.appointment_status IS NOT NULL THEN 'No'
-		ELSE NULL
-	END AS "18_possible_ltfu",
-	lpd.diagnosis AS "19_primary_diagnosis",
-	cam."Asthma" AS "20_asthma",
-	cam."Cardiovascular disease" AS "21_cardiovascular_disease",
-	cam."Chronic kidney insufficiency" AS "22_chronic_kidney_insufficiency",
-	cam."Chronic Kidney Disease, Stage I" AS "23_chronic_kidney_disease_stage_1",
-	cam."Chronic Kidney Disease, Stage II (Mild)" AS "24_chronic_kidney_disease_stage_2",
-	cam."Chronic Kidney Disease, Stage III (Moderate)" AS "25_chronic_kidney_disease_stage_3",
-	cam."Chronic Kidney Disease, Stage IV (Severe)" AS "26_chronic_kidney_disease_stage_4",
-	cam."Chronic Kidney Disease, Stage V" AS "27_chronic_kidney_disease_stage_5",
-	cam."Chronic obstructive pulmonary disease (COPD)" AS "28_copd",
-	cam."Epilepsy" AS "29_epilepsy",
-	cam."Chronic Hepatitis C" AS "30_chronic_hepatitis_c",
-	cam."Hypertension" AS "31_hypertension",
-	cam."Stroke" AS "32_stroke",
-	cam."Thyroid disease" AS "33_thyroid_disease",
-	cam."Diabetes mellitus, type 1" AS "34_diabetes_type_1",
-	cam."Diabetes mellitus, type 2" AS "35_diabetes_type_2",
+	lpd.diagnosis AS "18_primary_diagnosis",
+	cam."asthma" AS "19_asthma",
+	cam."cardiovascular_disease" AS "20_cardiovascular_disease",
+	cam."chronic_kidney_insufficiency" AS "21_chronic_kidney_insufficiency",
+	cam."chronic_kidney_disease_stage_1" AS "22_chronic_kidney_disease_stage_1",
+	cam."chronic_kidney_disease_stage_2" AS "23_chronic_kidney_disease_stage_2",
+	cam."chronic_kidney_disease_stage_3" AS "24_chronic_kidney_disease_stage_3",
+	cam."chronic_kidney_disease_stage_4" AS "25_chronic_kidney_disease_stage_4",
+	cam."chronic_kidney_disease_stage_5" AS "26_chronic_kidney_disease_stage_5",
 	CASE 
-		WHEN cam."Diabetes mellitus, type 1" IS NOT NULL THEN '1'
-		WHEN cam."Diabetes mellitus, type 2" IS NOT NULL THEN '1' 
+		WHEN cam."chronic_kidney_insufficiency" IS NOT NULL THEN '1'
+		WHEN cam."chronic_kidney_disease_stage_1" IS NOT NULL THEN '1'
+		WHEN cam."chronic_kidney_disease_stage_2" IS NOT NULL THEN '1'
+		WHEN cam."chronic_kidney_disease_stage_3" IS NOT NULL THEN '1'
+		WHEN cam."chronic_kidney_disease_stage_4" IS NOT NULL THEN '1'
+		WHEN cam."chronic_kidney_disease_stage_5" is NOT NULL THEN '1'
+		ELSE NULL 
+	END AS "27_chronic_kidney_disease_any_stage",
+	cam."copd" AS "28_copd",
+	cam."epilepsy" AS "29_epilepsy",
+	cam."chronic_hepatitis_c" AS "30_chronic_hepatitis_c",
+	cam."hypertension" AS "31_hypertension",
+	cam."stroke" AS "32_stroke",
+	cam."thyroid_disease" AS "33_thyroid_disease",
+	cam."diabetes_mellitus_type_1" AS "34_diabetes_type_1",
+	cam."diabetes_mellitus_type_2" AS "35_diabetes_type_2",
+	CASE 
+		WHEN cam."diabetes_mellitus_type_1" IS NOT NULL THEN '1'
+		WHEN cam."diabetes_mellitus_type_2" IS NOT NULL THEN '1' 
 		ELSE NULL 
 	END AS "36_diabetes_any_type",
-	cam."Cirrhosis and Chronic Liver Disease" AS "37_cirrhosis_chronic_liver_disease",
-	cam."Other pathology" AS "38_other_pathology",
-	lpv.date_recorded::date AS "39_last_bp_date",
+	cam."cirrhosis_and_chronic_liver_disease" AS "37_cirrhosis_chronic_liver_disease",
+	cam."other_pathology" AS "38_other_pathology",
+	cam.count_diagnosis AS "39_count_morbidities",
+	lpv.date_recorded::date AS "40_last_bp_date",
 	CASE
 		WHEN lpv.systolic_blood_pressure IS NOT NULL THEN concat(lpv.systolic_blood_pressure,'/',lpv.diastolic_blood_pressure) 
 		ELSE NULL 
-	END AS "40_last_bp",
+	END AS "41_last_bp",
 	CASE
 		WHEN lma.appointment_start_time::date = lpv.date_recorded THEN 'Yes'
 		WHEN lma.appointment_start_time::date <> lpv.date_recorded THEN 'No'
 		ELSE 'No'
-	END AS "41_bp_checked_at_last_appointment",
+	END AS "42_bp_checked_at_last_appointment",
 	CASE 
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND lpv.systolic_blood_pressure <= 140 OR lpv.diastolic_blood_pressure <= 90 THEN 'Yes'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND (lpv.systolic_blood_pressure > 140 OR lpv.diastolic_blood_pressure > 90) THEN 'No'
 		ELSE NULL 
-	END AS "42_bp_controlled",
-	lhba1c.date_of_sample_collected_for_hba1c::date AS "43_last_hba1c_date",
-	lhba1c.hba1c AS "44_last_hba1c",
+	END AS "43_bp_controlled",
+	lhba1c.date_of_sample_collected_for_hba1c::date AS "44_last_hba1c_date",
+	lhba1c.hba1c AS "45_last_hba1c",
 	CASE 
 		WHEN lhba1c.hba1c <= 6.5 THEN '<=6.5%'
 		WHEN lhba1c.hba1c > 6.5 AND lhba1c.hba1c <= 8 THEN '6.6-8.0%'
 		WHEN lhba1c.hba1c > 8 THEN '>=8.1%'
 		ELSE NULL 
-	END AS "45_last_hba1c_categories",
+	END AS "46_last_hba1c_categories",
 	CASE
 		WHEN lhba1c.date_of_sample_collected_for_hba1c >= date_trunc('day', now())- INTERVAL '12 month' THEN 'Yes'
 		WHEN lhba1c.date_of_sample_collected_for_hba1c < date_trunc('day', now())- INTERVAL '12 month' THEN 'No'
 		ELSE 'No'
-	END AS "46_hba1c_checked_in_last_12_months",
-	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "47_last_fbs_date",
-	lfbs.fasting_blood_sugar_fbs AS "48_last_fbs",
+	END AS "47_hba1c_checked_in_last_12_months",
+	lfbs.date_of_sample_collected_for_fasting_blood_sugar_fbs::date AS "48_last_fbs_date",
+	lfbs.fasting_blood_sugar_fbs AS "49_last_fbs",
 	CASE 
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NOT NULL AND ldcc.hba1c < 8  THEN 'Yes'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NOT NULL AND ldcc.hba1c >= 8  THEN 'No'
@@ -140,15 +147,15 @@ SELECT
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.hba1c IS NULL AND ldcc.fasting_blood_sugar_fbs >= 150  THEN 'No'
 		WHEN led.date_of_entry_into_cohort <= date_trunc('day', now())- INTERVAL '6 month' AND ldcc.patient_id IS NULL THEN 'No results recorded'
 		ELSE NULL
-	END AS "49_diabetes_controlled", 
-	daai.date_of_daa_initiation::date AS "50_daa_initiation_date", 
-	daat.date_of_daa_termination::date AS "51_daa_termination_date",
+	END AS "50_diabetes_controlled", 
+	daai.date_of_daa_initiation::date AS "51_daa_initiation_date", 
+	daat.date_of_daa_termination::date AS "52_daa_termination_date",
 	CASE 
 		WHEN svr.numeric_vl < 1000 THEN 'Yes' 
 		WHEN svr.numeric_vl >= 1000 THEN 'No' 
 		WHEN svr.numeric_vl IS NULL AND daat.date_of_daa_termination < date_trunc('day', now())- INTERVAL '12 week' THEN 'No VL Result'
 		ELSE NULL 
-	END AS "52_svr12"
+	END AS "53_svr12"
 FROM patient_identifier pid
 /*Joins age and gender for each patient*/
 LEFT OUTER JOIN person_details_default pdd 
@@ -223,7 +230,7 @@ LEFT OUTER JOIN (
 		WHERE appointment_start_time < now()
 		ORDER BY patient_id, appointment_start_time DESC) lpa
 	ON pid.patient_id = lpa.patient_id
-/*Joins last appointment status from last appointment within the last 3 months from current date that was marked as completed/checkedIn*/
+/*Joins list of appointments prior to current date that were marked as completed/checkedIn*/
 LEFT OUTER JOIN (
 		SELECT
 			DISTINCT ON (patient_id) patient_id,
@@ -231,20 +238,9 @@ LEFT OUTER JOIN (
 			appointment_status,
 			appointment_service 
 		FROM patient_appointment_default
-		WHERE appointment_start_time < now() AND appointment_start_time >= date_trunc('day', now())- INTERVAL '3 month' AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
-		ORDER BY patient_id, appointment_start_time DESC) lpa3
-	ON pid.patient_id = lpa3.patient_id
-/*Joins last appointment status from last appointment within the last 12 months from current date that was marked as completed/checkedIn*/
-LEFT OUTER JOIN (
-		SELECT
-			DISTINCT ON (patient_id) patient_id,
-			appointment_start_time,
-			appointment_status,
-			appointment_service 
-		FROM patient_appointment_default
-		WHERE appointment_start_time < now() AND appointment_start_time >= date_trunc('day', now())- INTERVAL '12 month' AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
-		ORDER BY patient_id, appointment_start_time DESC) lpa12
-	ON pid.patient_id = lpa12.patient_id
+		WHERE appointment_start_time < now() AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
+		ORDER BY patient_id, appointment_start_time DESC) aa
+	ON pid.patient_id = aa.patient_id
 /*Joins last recorded complete blood pressure for all patients*/
 LEFT OUTER JOIN (
 		SELECT
