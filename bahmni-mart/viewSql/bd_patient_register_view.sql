@@ -1,5 +1,65 @@
+/*Creates a table per patient with last attended appointment, if no attended appointments are recorded then assumes that last attended appointment was date of cohort entry*/
+WITH cte_last_completed_appointment AS (
+	SELECT
+		DISTINCT ON (patient_id) patient_id,
+		appointment_start_time,
+		appointment_status,
+		appointment_service,
+		DATE_PART('day',(now())-(appointment_start_time::timestamp))::int AS days_since
+	FROM patient_appointment_default
+	WHERE appointment_start_time < now()
+		AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
+	ORDER BY patient_id, appointment_start_time DESC),
+cte_entry_assumed_appointment AS (
+	SELECT
+		DISTINCT ON (patient_id) patient_id, 
+		date_of_entry_into_cohort AS appointment_start_time,
+		concat('Completed') AS appointment_status, 
+		concat('assumed initial medical appointment') AS appointment_service,
+		DATE_PART('day',(now())-(date_of_entry_into_cohort::timestamp))::int AS days_since
+	FROM entrance_and_exit
+	WHERE date_of_entry_into_cohort IS NOT NULL 
+	ORDER BY patient_id, obs_datetime DESC),
+cte_last_attended_appointment_assumed AS (
+	SELECT 
+		pid.patient_id AS patient_id,
+		CASE
+			WHEN clca.patient_id IS NOT NULL THEN clca.appointment_service
+			WHEN clca.patient_id IS NULL AND ceaa.patient_id IS NOT NULL THEN ceaa.appointment_service
+			ELSE NULL
+		END AS appointment_service,
+		CASE
+			WHEN clca.patient_id IS NOT NULL THEN clca.appointment_start_time
+			WHEN clca.patient_id IS NULL AND ceaa.patient_id IS NOT NULL THEN ceaa.appointment_start_time
+			ELSE NULL
+		END AS appointment_start_time,
+		CASE
+			WHEN clca.patient_id IS NOT NULL THEN clca.days_since
+			WHEN clca.patient_id IS NULL AND ceaa.patient_id IS NOT NULL THEN ceaa.days_since
+			ELSE NULL
+		END AS days_since
+	FROM patient_identifier pid
+	LEFT OUTER JOIN cte_last_completed_appointment clca
+		ON pid.patient_id = clca.patient_id
+	LEFT OUTER JOIN cte_entry_assumed_appointment ceaa
+		ON pid.patient_id = ceaa.patient_id
+	WHERE clca.patient_id IS NOT NULL OR ceaa.patient_id IS NOT NULL),
+/*Creates a table per patient with first missed appointment after last attened appointment*/
+cte_first_missed_since_appointment AS (
+	SELECT
+		DISTINCT ON (pa.patient_id) pa.patient_id,
+		pa.appointment_start_time,
+		pa.appointment_status,
+		pa.appointment_service,
+		DATE_PART('day',(now())-(pa.appointment_start_time::timestamp))::int AS days_since
+	FROM cte_last_attended_appointment_assumed claaa
+	RIGHT JOIN patient_appointment_default pa
+		ON claaa.patient_id = pa.patient_id 
+		WHERE pa.appointment_start_time > claaa.appointment_start_time 
+			AND (pa.appointment_status = 'Missed' OR pa.appointment_status = 'Scheduled')
+		ORDER BY pa.patient_id, pa.appointment_start_time ASC),
 /*Creates a table with pivoted primary and co-morbidity date*/
-WITH cte_all_morbidities AS (
+cte_all_morbidities AS (
 	SELECT
 		am.patient_id,
 		MAX (CASE WHEN am.diagnosis = 'Asthma' THEN '1' ELSE NULL END)::INT AS "asthma",
@@ -50,19 +110,14 @@ SELECT
 		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL THEN 'Yes'
 		ELSE NULL 
 	END AS "08_current_cohort",
-	CASE
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND 
-			(lpa.patient_id IS NULL OR
-			led.date_of_entry_into_cohort >= (date_trunc('day', now()) - INTERVAL '90 day') OR
-			lpa.appointment_service = 'CheckedIn' OR lpa.appointment_service = 'Completed' OR
-			(aa.appointment_start_time >= (date_trunc('day', lpa.appointment_start_time)- INTERVAL '90 day'))) THEN 'Yes'
-		ELSE NULL
+	CASE 
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND claaa.days_since < 90 THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND claaa.days_since >= 90 AND cfmsa.patient_id IS NULL THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND cfmsa.days_since < 90 THEN 'Yes'	
+		ELSE NULL 
 	END AS "09_active",
 	CASE
-		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND 
-			led.date_of_entry_into_cohort < (date_trunc('day', now()) - INTERVAL '90 day') AND 
-			(lpa.appointment_service <> 'CheckedIn' OR lpa.appointment_service <> 'Completed') AND
-			(aa.appointment_status IS NULL OR aa.appointment_start_time < (date_trunc('day', lpa.appointment_start_time)- INTERVAL '90 day')) THEN 'Yes'
+		WHEN led.date_of_entry_into_cohort IS NOT NULL AND led2.cohort_exit_date IS NULL AND es.exit_outcome_of_patient IS NULL AND cfmsa.days_since >= 90 THEN 'Yes'
 		ELSE NULL
 	END AS "10_inactive",
 	led.date_of_entry_into_cohort::date AS "11_cohort_entry_date",
@@ -82,9 +137,9 @@ SELECT
 	lpa.appointment_service AS "16_last_appointment_service",
 	lpa.appointment_status AS "17_last_appointment_status",
 	CASE
-		WHEN (lpa.appointment_service <> 'CheckedIn' OR lpa.appointment_service <> 'Completed') THEN (DATE_PART('day',(now())-(lpa.appointment_start_time::timestamp)))::int
+		WHEN lpa.appointment_start_time IS NOT NULL THEN (DATE_PART('day',(now())-(lpa.appointment_start_time::timestamp)))::int
 		ELSE NULL 
-	END AS "18_days_since_last_missed_appointment",
+	END AS "18_days_since_last_appointment",
 	lpd.diagnosis AS "19_primary_diagnosis",
 	CASE WHEN cam.asthma IS NOT NULL THEN cam.asthma ELSE '0' END AS "20_asthma",
 	CASE WHEN cam.cardiovascular_disease IS NOT NULL THEN cam.cardiovascular_disease ELSE '0' END AS "21_cardiovascular_disease",
@@ -242,6 +297,12 @@ LEFT OUTER JOIN (
 /*Joins last reported primary diagnois and co-morbidities from pivoted table created in the WITH clause*/
 LEFT OUTER JOIN cte_all_morbidities cam
 	ON pid.patient_id = cam.patient_id
+/*Joins first missed/scheduled appointment in most recent series of missed/scheduled appointments*/
+LEFT OUTER JOIN cte_first_missed_since_appointment cfmsa
+	ON pid.patient_id = cfmsa.patient_id
+/*Joins last atteneded appointment, if no attended appointment is listed then last reported cohort entry date is reported last last attended appointment*/
+LEFT OUTER JOIN cte_last_attended_appointment_assumed claaa 
+	ON pid.patient_id = claaa.patient_id
 /*Joins last appointment that took place (date, service, status). Excludes appointments scheduled in the future*/
 LEFT OUTER JOIN (
 		SELECT
@@ -253,17 +314,6 @@ LEFT OUTER JOIN (
 		WHERE appointment_start_time < now()
 		ORDER BY patient_id, appointment_start_time DESC) lpa
 	ON pid.patient_id = lpa.patient_id
-/*Joins list of appointments prior to current date that were marked as completed/checkedIn*/
-LEFT OUTER JOIN (
-		SELECT
-			DISTINCT ON (patient_id) patient_id,
-			appointment_start_time,
-			appointment_status,
-			appointment_service 
-		FROM patient_appointment_default
-		WHERE appointment_start_time < now() AND (appointment_status = 'Completed' OR appointment_status = 'CheckedIn')
-		ORDER BY patient_id, appointment_start_time DESC) aa
-	ON pid.patient_id = aa.patient_id
 /*Joins last recorded complete blood pressure for all patients*/
 LEFT OUTER JOIN (
 		SELECT
